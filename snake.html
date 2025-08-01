@@ -84,7 +84,7 @@
   let food = randomFood();
 
   let score = 0;
-  let d;
+  let d = "LEFT"; // boshlang'ich yo'nalish qo'shildi
 
   document.addEventListener("keydown", direction);
 
@@ -197,7 +197,7 @@
       { x: 15 * box, y: 29 * box },
     ];
     score = 0;
-    d = undefined;
+    d = "LEFT"; // boshlang'ich yo'nalishni qayta berdim
     food = randomFood();
     clearInterval(game);
     speed = 100;
@@ -207,5 +207,3 @@
 
 </body>
 </html>
-
-
