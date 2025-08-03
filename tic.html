@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tic Tac Toe Multiplayer + AI</title>
+
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "YOUR-AD-CLIENT-ID", // <-- BU YERGA O'ZINGIZNING CLIENT ID KIRITASIZ
+      enable_page_level_ads: true
+    });
+  </script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body { 
+      background: linear-gradient(135deg, #1e90ff, #00c6ff); 
+      display: flex; flex-direction: column;
+      align-items: center; min-height: 100vh; 
+    }
+
+    .ad-banner {
+      width: 100%;
+      max-width: 728px;
+      margin: 10px auto;
+      text-align: center;
+    }
+
+    .container {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 20px;
+      border-radius: 20px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      width: 400px;
+      margin: 10px auto;
+    }
+
+    h1 { color: #fff; margin-bottom: 15px; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+    #turn-info { color: #fff; margin-bottom: 20px; font-size: 18px; }
+
+    .controls { margin-bottom: 15px; }
+    select, button { 
+      padding: 10px 15px;
+      border-radius: 8px;
+      border: none;
+      margin: 5px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+    }
+
+    select:hover, button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    #reset-btn { background: #28a745; color: white; }
+    #reset-btn:hover { background: #218838; }
+
+    .board {
+      display: grid;
+      grid-gap: 10px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .cell {
+      background: rgba(255,255,255,0.9);
+      border-radius: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 32px;
+      font-weight: bold;
+      color: #1e90ff;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.3s;
+    }
+
+    .cell:hover { background: rgba(255,255,255,1); transform: scale(1.05); }
+    .mark { animation: pop 0.25s ease; }
+    @keyframes pop { from { transform: scale(0.5); } to { transform: scale(1); } }
+
+    .winner { animation: blink 0.5s infinite alternate; background: #ffeb3b !important; }
+    @keyframes blink { from { transform: scale(1); } to { transform: scale(1.15); } }
+  </style>
+</head>
+<body>
+
+  <!-- Yuqoridagi reklama -->
+  <div class="ad-banner">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="YOUR-AD-CLIENT-ID"
+         data-ad-slot="YOUR-AD-SLOT"
+         data-ad-format="auto"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <div class="container">
+    <h1>Tic Tac Toe Multiplayer + AI</h1>
+    <div class="controls">
+      <select id="board-size">
+        <option value="3">3x3</option>
+        <option value="4">4x4</option>
+        <option value="5" selected>5x5</option>
+      </select>
+      <select id="win-length">
+        <option value="3">Yutish: 3 ta</option>
+        <option value="4">Yutish: 4 ta</option>
+        <option value="5">Yutish: 5 ta</option>
+      </select>
+      <select id="mode">
+        <option value="2player">2 O'yinchi</option>
+        <option value="ai1">AI – Juda oson</option>
+        <option value="ai2">AI – Oson</option>
+        <option value="ai3">AI – O‘rtacha</option>
+        <option value="ai4">AI – Qiyin</option>
+        <option value="ai5">AI – Juda qiyin</option>
+      </select>
+      <button id="reset-btn">Qayta boshlash</button>
+    </div>
+
+    <p id="turn-info">1-o‘yinchi (X) navbati</p>
+    <div class="board" id="board"></div>
+  </div>
+
+  <!-- Pastki reklama -->
+  <div class="ad-banner">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="YOUR-AD-CLIENT-ID"
+         data-ad-slot="YOUR-AD-SLOT"
+         data-ad-format="auto"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <script>
+    const board = document.getElementById('board');
+    const turnInfo = document.getElementById('turn-info');
+    const resetBtn = document.getElementById('reset-btn');
+    const modeSelect = document.getElementById('mode');
+    const sizeSelect = document.getElementById('board-size');
+    const winSelect = document.getElementById('win-length');
+
+    let currentPlayer = 'X';
+    let gameActive = true;
+    let boardState = [];
+    let mode = '2player';
+    let size = 5;
+    let winLength = 3;
+
+    sizeSelect.addEventListener('change', () => { size = parseInt(sizeSelect.value); createBoard(); });
+    modeSelect.addEventListener('change', () => { mode = modeSelect.value; createBoard(); });
+    winSelect.addEventListener('change', () => { winLength = parseInt(winSelect.value); createBoard(); });
+
+    function createBoard() {
+      board.innerHTML = '';
+      board.style.gridTemplateColumns = `repeat(${size}, 70px)`;
+      board.style.gridTemplateRows = `repeat(${size}, 70px)`;
+      boardState = Array(size * size).fill('');
+      gameActive = true;
+      currentPlayer = 'X';
+      winLength = parseInt(winSelect.value);
+      turnInfo.textContent = "1-o‘yinchi (X) navbati";
+
+      for (let i = 0; i < size * size; i++) {
+        const cell = document.createElement('div');
+        cell.classList.add('cell');
+        cell.dataset.index = i;
+        cell.style.width = '70px';
+        cell.style.height = '70px';
+        cell.addEventListener('click', handleCellClick);
+        board.appendChild(cell);
+      }
+    }
+
+    function handleCellClick(e) {
+      const index = e.target.dataset.index;
+      if (!gameActive || boardState[index] !== '') return;
+      makeMove(index);
+      if (mode.startsWith('ai') && gameActive && currentPlayer === 'O') {
+        setTimeout(aiMove, 400);
+      }
+    }
+
+    function makeMove(index) {
+      boardState[index] = currentPlayer;
+      const cell = board.children[index];
+      cell.textContent = currentPlayer;
+      cell.classList.add('mark');
+      cell.style.color = currentPlayer === 'X' ? '#ff4757' : '#1e90ff';
+
+      const winCells = checkWin();
+      if (winCells) {
+        winCells.forEach(i => board.children[i].classList.add('winner'));
+        turnInfo.textContent = `${currentPlayer} yutdi! 🎉`;
+        gameActive = false;
+        return;
+      }
+
+      if (boardState.every(cell => cell !== '')) {
+        turnInfo.textContent = "Durrang! 🤝";
+        gameActive = false;
+        return;
+      }
+
+      currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+      turnInfo.textContent = `${currentPlayer === 'X' ? '1' : '2'}-o‘yinchi (${currentPlayer}) navbati`;
+    }
+
+    function aiMove() {
+      let aiIndex;
+      const emptyCells = boardState.map((v, i) => v === '' ? i : null).filter(v => v !== null);
+      switch (mode) {
+        case 'ai1': aiIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)]; break;
+        case 'ai2': aiIndex = findWinningMove('O') || findWinningMove('X') || randomCell(emptyCells); break;
+        case 'ai3': aiIndex = findWinningMove('O') || findWinningMove('X') || emptyCells[0]; break;
+        case 'ai4': aiIndex = findWinningMove('O') || findWinningMove('X') || centerOrRandom(emptyCells); break;
+        case 'ai5': aiIndex = minimaxMove(); break;
+      }
+      makeMove(aiIndex);
+    }
+
+    function randomCell(cells) { return cells[Math.floor(Math.random() * cells.length)]; }
+    function centerOrRandom(cells) { 
+      const center = Math.floor((size * size) / 2);
+      return boardState[center] === '' ? center : randomCell(cells);
+    }
+
+    function findWinningMove(player) {
+      for (let i = 0; i < size * size; i++) {
+        if (boardState[i] === '') {
+          boardState[i] = player;
+          if (checkWin(player)) { boardState[i] = ''; return i; }
+          boardState[i] = '';
+        }
+      }
+      return null;
+    }
+
+    function minimaxMove() {
+      let bestScore = -Infinity;
+      let move;
+      const emptyCells = boardState.map((v, i) => v === '' ? i : null).filter(v => v !== null);
+      for (let index of emptyCells) {
+        boardState[index] = 'O';
+        let score = minimax(false);
+        boardState[index] = '';
+        if (score > bestScore) { bestScore = score; move = index; }
+      }
+      return move;
+    }
+
+    function minimax(isMax) {
+      const win = checkWin();
+      if (win && currentPlayer === 'O') return 10;
+      if (win && currentPlayer === 'X') return -10;
+      if (boardState.every(c => c !== '')) return 0;
+
+      if (isMax) {
+        let bestScore = -Infinity;
+        for (let i = 0; i < size * size; i++) {
+          if (boardState[i] === '') {
+            boardState[i] = 'O';
+            bestScore = Math.max(bestScore, minimax(false));
+            boardState[i] = '';
+          }
+        }
+        return bestScore;
+      } else {
+        let bestScore = Infinity;
+        for (let i = 0; i < size * size; i++) {
+          if (boardState[i] === '') {
+            boardState[i] = 'X';
+            bestScore = Math.min(bestScore, minimax(true));
+            boardState[i] = '';
+          }
+        }
+        return bestScore;
+      }
+    }
+
+    function checkWin(player = currentPlayer) {
+      for (let r = 0; r < size; r++) {
+        for (let c = 0; c <= size - winLength; c++) {
+          const cells = Array.from({ length: winLength }, (_, k) => r * size + c + k);
+          if (cells.every(i => boardState[i] === player)) return cells;
+        }
+      }
+      for (let c = 0; c < size; c++) {
+        for (let r = 0; r <= size - winLength; r++) {
+          const cells = Array.from({ length: winLength }, (_, k) => (r + k) * size + c);
+          if (cells.every(i => boardState[i] === player)) return cells;
+        }
+      }
+      for (let r = 0; r <= size - winLength; r++) {
+        for (let c = 0; c <= size - winLength; c++) {
+          const cells = Array.from({ length: winLength }, (_, k) => (r + k) * size + c + k);
+          if (cells.every(i => boardState[i] === player)) return cells;
+        }
+      }
+      for (let r = 0; r <= size - winLength; r++) {
+        for (let c = winLength - 1; c < size; c++) {
+          const cells = Array.from({ length: winLength }, (_, k) => (r + k) * size + c - k);
+          if (cells.every(i => boardState[i] === player)) return cells;
+        }
+      }
+      return null;
+    }
+
+    resetBtn.addEventListener('click', createBoard);
+    createBoard();
+  </script>
+</body>
+</html>
