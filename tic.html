@@ -16,7 +16,6 @@
       overflow-x: hidden;
     }
 
-    /* Yuqori burchak tugmalari */
     .top-buttons {
       position: absolute;
       top: 20px;
@@ -97,7 +96,6 @@
     .winner { animation: blink 0.5s infinite alternate; background: #ffeb3b !important; }
     @keyframes blink { from { transform: scale(1); } to { transform: scale(1.15); } }
 
-    /* Reklama bannerlari */
     .ads-container {
       display: grid;
       grid-template-columns: repeat(auto-fill, 80px);
@@ -124,12 +122,10 @@
 </head>
 <body>
 
-  <!-- Tugmalar -->
   <div class="top-buttons">
     <a href="snake.html">🐍 Snake</a>
   </div>
 
-  <!-- O'yin -->
   <div class="container">
     <h1>Tic Tac Toe Multiplayer + AI</h1>
     <div class="controls">
@@ -157,8 +153,22 @@
     <div class="board" id="board"></div>
   </div>
 
-  <!-- Reklama bannerlari -->
-  <div class="ads-container" id="ads"></div>
+  <!-- ✅ Reklama qo‘yiladigan joy -->
+  <div id="ads" class="ads-container"></div>
+
+  <!-- Adsterra banner -->
+  <div style="margin: 20px 0;">
+    <script type="text/javascript">
+      atOptions = {
+        'key' : 'cd6293ca7f540f6f45705d449c7f4748',
+        'format' : 'iframe',
+        'height' : 300,
+        'width' : 160,
+        'params' : {}
+      };
+    </script>
+    <script type="text/javascript" src="//www.highperformanceformat.com/cd6293ca7f540f6f45705d449c7f4748/invoke.js"></script>
+  </div>
 
   <script>
     const board = document.getElementById('board');
@@ -350,6 +360,7 @@
   </script>
 </body>
 </html>
+
 <!DOCTYPE html>
 <html lang="uz">
 <head>
