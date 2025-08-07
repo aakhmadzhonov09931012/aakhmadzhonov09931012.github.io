@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🚀 Space Shooter</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: black;
+      font-family: sans-serif;
+    }
+    canvas {
+      display: block;
+      background: radial-gradient(circle at center, #111, #000);
+    }
+    .ads-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, 160px);
+      gap: 10px;
+      justify-content: center;
+      margin: 10px auto;
+      padding: 10px;
+      width: 100%;
+      max-width: 1000px;
+      background: #000;
+    }
+    .top-buttons {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 9999;
+    }
+    .top-buttons a {
+      background: #0c0;
+      color: black;
+      padding: 8px 12px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-buttons">
+    <a href="index.html">❌ Tic Tac Toe</a>
+    <a href="snake.html">🐍 Snake</a>
+  </div>
+
+  <canvas id="gameCanvas" width="480" height="640"></canvas>
+
+  <!-- Reklama (10 ta Adsterra iframe) -->
+  <div class="ads-container">
+    <script type="text/javascript">
+      for (let i = 0; i < 10; i++) {
+        document.write(`
+          <script type="text/javascript">
+            atOptions = {
+              'key' : 'f8dbc3c5a480107e1646ce63fec19cd5',
+              'format' : 'iframe',
+              'height' : 600,
+              'width' : 160,
+              'params' : {}
+            };
+          <\/script>
+          <script type="text/javascript" src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js"><\/script>
+        `);
+      }
+    </script>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    const ship = {
+      x: canvas.width / 2 - 20,
+      y: canvas.height - 60,
+      width: 40,
+      height: 40,
+      speed: 5,
+      bullets: []
+    };
+
+    const enemies = [];
+    const enemySize = 30;
+    const enemySpeed = 2;
+
+    let score = 0;
+    let keys = {};
+
+    function drawShip() {
+      ctx.fillStyle = "lime";
+      ctx.beginPath();
+      ctx.moveTo(ship.x, ship.y + ship.height);
+      ctx.lineTo(ship.x + ship.width / 2, ship.y);
+      ctx.lineTo(ship.x + ship.width, ship.y + ship.height);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    function drawBullets() {
+      ctx.fillStyle = "red";
+      ship.bullets.forEach((b, i) => {
+        ctx.fillRect(b.x, b.y, 4, 10);
+        b.y -= 8;
+        if (b.y < 0) ship.bullets.splice(i, 1);
+      });
+    }
+
+    function drawEnemies() {
+      ctx.fillStyle = "white";
+      enemies.forEach((e, ei) => {
+        ctx.fillRect(e.x, e.y, enemySize, enemySize);
+        e.y += enemySpeed;
+
+        // Check collision
+        ship.bullets.forEach((b, bi) => {
+          if (
+            b.x < e.x + enemySize &&
+            b.x + 4 > e.x &&
+            b.y < e.y + enemySize &&
+            b.y + 10 > e.y
+          ) {
+            enemies.splice(ei, 1);
+            ship.bullets.splice(bi, 1);
+            score++;
+          }
+        });
+
+        // Game Over
+        if (e.y + enemySize > canvas.height) {
+          alert("O'yin tugadi! Hisob: " + score);
+          document.location.reload();
+        }
+      });
+    }
+
+    function drawScore() {
+      ctx.fillStyle = "white";
+      ctx.font = "20px Arial";
+      ctx.fillText("Hisob: " + score, 10, 30);
+    }
+
+    function gameLoop() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Move ship
+      if (keys["ArrowLeft"] && ship.x > 0) ship.x -= ship.speed;
+      if (keys["ArrowRight"] && ship.x + ship.width < canvas.width) ship.x += ship.speed;
+
+      drawShip();
+      drawBullets();
+      drawEnemies();
+      drawScore();
+
+      requestAnimationFrame(gameLoop);
+    }
+
+    function spawnEnemy() {
+      const x = Math.random() * (canvas.width - enemySize);
+      enemies.push({ x: x, y: -enemySize });
+    }
+
+    document.addEventListener("keydown", e => {
+      keys[e.key] = true;
+      if (e.key === " " || e.key === "ArrowUp") {
+        ship.bullets.push({
+          x: ship.x + ship.width / 2 - 2,
+          y: ship.y
+        });
+      }
+    });
+
+    document.addEventListener("keyup", e => {
+      keys[e.key] = false;
+    });
+
+    setInterval(spawnEnemy, 1000);
+    gameLoop();
+  </script>
+</body>
+</html>
