@@ -56,23 +56,23 @@
 <body>
 <a href="index.html" class="top-link">❌ Tic Tac Toe</a>
 
-<!-- 10 ta 160x600 reklama -->
+<!-- 10 ta 160x600 banner (to'g'ri ishlaydigan kod) -->
 <div class="ads-right">
-  <!-- Bitta key bilan 10 ta banner -->
-  <script>
+  <!-- Adsterra bannerlar -->
+  <script type="text/javascript">
+    const adKey = 'f8dbc3c5a480107e1646ce63fec19cd5';
     for (let i = 0; i < 10; i++) {
-      document.write(`
-        <script type="text/javascript">
-          atOptions = {
-            'key': 'f8dbc3c5a480107e1646ce63fec19cd5',
-            'format': 'iframe',
-            'height': 600,
-            'width': 160,
-            'params': {}
-          };
-        <\/script>
-        <script type="text/javascript" src="https://www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js"><\/script>
-      `);
+      const atOptions = {
+        key: adKey,
+        format: 'iframe',
+        height: 600,
+        width: 160,
+        params: {}
+      };
+      const s = document.createElement('script');
+      s.type = 'text/javascript';
+      s.src = `https://www.highperformanceformat.com/${adKey}/invoke.js`;
+      document.currentScript.parentNode.appendChild(s);
     }
   </script>
 </div>
@@ -173,3 +173,4 @@
 </script>
 </body>
 </html>
+
