@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <title>Memory Card Game</title>
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(to right, #ffecd2, #fcb69f);
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      margin: 20px;
+      color: #333;
+    }
+
+    #game-board {
+      display: grid;
+      grid-template-columns: repeat(4, 80px);
+      grid-gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      width: 80px;
+      height: 80px;
+      background-color: #ddd;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 30px;
+      cursor: pointer;
+      border-radius: 10px;
+      transition: transform 0.2s;
+    }
+
+    .card.revealed {
+      background-color: #fff;
+      color: #333;
+      cursor: default;
+    }
+
+    #reset {
+      padding: 10px 20px;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      background: #28a745;
+      color: white;
+      cursor: pointer;
+    }
+
+    #reset:hover {
+      background: #218838;
+    }
+
+    .ads-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, 160px);
+      gap: 10px;
+      justify-content: center;
+      padding: 20px;
+      width: 100%;
+      max-width: 1000px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧠 Memory Card Game</h1>
+  <button id="reset">Qayta boshlash</button>
+  <div id="game-board"></div>
+
+  <!-- 10 ta Adsterra reklama -->
+  <div class="ads-container">
+    <script>
+      for (let i = 0; i < 10; i++) {
+        const script1 = document.createElement("script");
+        script1.type = "text/javascript";
+        script1.innerHTML = `
+          atOptions = {
+            'key' : 'f8dbc3c5a480107e1646ce63fec19cd5',
+            'format' : 'iframe',
+            'height' : 600,
+            'width' : 160,
+            'params' : {}
+          };
+        `;
+        const script2 = document.createElement("script");
+        script2.type = "text/javascript";
+        script2.src = "//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js";
+
+        document.currentScript.parentNode.appendChild(script1);
+        document.currentScript.parentNode.appendChild(script2);
+      }
+    </script>
+  </div>
+
+  <script>
+    const board = document.getElementById("game-board");
+    const resetBtn = document.getElementById("reset");
+    let cards = [];
+    let firstCard = null;
+    let secondCard = null;
+    let lock = false;
+
+    function initGame() {
+      board.innerHTML = "";
+      const symbols = ['🍎','🍌','🍇','🍓','🍍','🥝','🍉','🍒'];
+      const gameSymbols = [...symbols, ...symbols].sort(() => Math.random() - 0.5);
+
+      cards = [];
+
+      gameSymbols.forEach(symbol => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.dataset.symbol = symbol;
+        card.innerText = "";
+        card.addEventListener("click", () => revealCard(card));
+        board.appendChild(card);
+        cards.push(card);
+      });
+
+      firstCard = null;
+      secondCard = null;
+      lock = false;
+    }
+
+    function revealCard(card) {
+      if (lock || card.classList.contains("revealed") || card === firstCard) return;
+
+      card.classList.add("revealed");
+      card.innerText = card.dataset.symbol;
+
+      if (!firstCard) {
+        firstCard = card;
+      } else {
+        secondCard = card;
+        lock = true;
+
+        setTimeout(() => {
+          if (firstCard.dataset.symbol === secondCard.dataset.symbol) {
+            firstCard.style.backgroundColor = "#aaffaa";
+            secondCard.style.backgroundColor = "#aaffaa";
+          } else {
+            firstCard.classList.remove("revealed");
+            secondCard.classList.remove("revealed");
+            firstCard.innerText = "";
+            secondCard.innerText = "";
+          }
+          firstCard = null;
+          secondCard = null;
+          lock = false;
+        }, 800);
+      }
+    }
+
+    resetBtn.addEventListener("click", initGame);
+    initGame();
+  </script>
+</body>
+</html>
