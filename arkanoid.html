@@ -51,6 +51,21 @@
     .top-buttons a:hover {
       background: #0f0;
     }
+    #restartBtn {
+      display: none;
+      margin: 20px;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: bold;
+      background-color: #0f0;
+      color: #000;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    #restartBtn:hover {
+      background-color: lime;
+    }
   </style>
 </head>
 <body>
@@ -62,6 +77,8 @@
 
   <h1>🧱 Arkanoid (Brick Breaker)</h1>
   <canvas id="game" width="480" height="320"></canvas>
+
+  <button id="restartBtn" onclick="restartGame()">🔁 Qayta boshlash</button>
 
   <!-- 10 ta Adsterra banner -->
   <div class="ads-container">
@@ -109,6 +126,7 @@
     let brickOffsetLeft = 30;
 
     let score = 0;
+    let gameOver = false;
 
     const bricks = [];
     for (let c = 0; c < brickColumnCount; c++) {
@@ -154,8 +172,8 @@
               b.status = 0;
               score++;
               if (score === brickRowCount * brickColumnCount) {
-                alert("Tabriklaymiz! Yutdingiz 🏆");
-                document.location.reload();
+                gameOver = true;
+                showRestartButton();
               }
             }
           }
@@ -204,6 +222,8 @@
     }
 
     function draw() {
+      if (gameOver) return;
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       drawBricks();
       drawBall();
@@ -217,8 +237,8 @@
         if (x > paddleX && x < paddleX + paddleWidth) {
           dy = -dy;
         } else {
-          alert("O'yin tugadi! Qayta urinib ko‘ring.");
-          document.location.reload();
+          gameOver = true;
+          showRestartButton();
         }
       }
 
@@ -231,6 +251,15 @@
       x += dx;
       y += dy;
       requestAnimationFrame(draw);
+    }
+
+    function showRestartButton() {
+      document.getElementById("restartBtn").style.display = "block";
+    }
+
+    function restartGame() {
+      window.open('https://www.highperformancecpmgate.com/f8dbc3c5a480107e1646ce63fec19cd5', '_blank');
+      location.reload();
     }
 
     draw();
