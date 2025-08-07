@@ -5,94 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tic Tac Toe Multiplayer + AI</title>
 
-  <!-- Google AdSense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-  <script>
-    (adsbygoogle = window.adsbygoogle || []).push({
-      google_ad_client: "YOUR-AD-CLIENT-ID", // <-- BU YERGA O'ZINGIZNING CLIENT ID KIRITASIZ
-      enable_page_level_ads: true
-    });
-  </script>
-  <script type="text/javascript">
-(function() {
-    var s = document.createElement('script');
-    s.src = "https://YOUR-ADVERTEN-SMARTLINK.js"; // Advertenda'dan berilgan script
-    s.async = true;
-    document.head.appendChild(s);
-})();
-</script>
-
-
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
     body { 
       background: linear-gradient(135deg, #1e90ff, #00c6ff); 
-      display: flex; flex-direction: column;
-      align-items: center; min-height: 100vh; 
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
-    .snake-button {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: #28a745;
-    color: white;
-    padding: 10px 15px;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: bold;
-    transition: background 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    z-index: 10000; /* Barcha bannerlardan yuqoriga chiqadi */
-}
 
-
-.snake-button:hover {
-    background-color: #218838;
-}
-
-
-
-    /* Floating reklama */
-#floating-ad {
-    position: fixed;
-    right: 10px;
-    bottom: 100px;
-    width: 300px;
-    height: 250px;
-    background: #fff;
-    border: 1px solid #ccc;
-    z-index: 50; /* Pastki va yon bannerlar orqasida bo‘ladi */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-}
-#floating-ad iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-}
-
-/* Pastki banner */
-#banner-ad {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 90px;
-    background: #fff;
-    text-align: center;
-    z-index: 1000; /* Floating ad ustida bo‘lishi uchun */
-}
-#banner-ad iframe {
-    width: 728px;
-    height: 90px;
-    border: none;
-}
-
-
-    .ad-banner {
-      width: 100%;
-      max-width: 728px;
-      margin: 10px auto;
-      text-align: center;
+    /* Yuqori burchak tugmalari */
+    .top-buttons {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 10px;
+      z-index: 2000;
+    }
+    .top-buttons a {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 15px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+    .top-buttons a:hover {
+      background-color: #0056b3;
     }
 
     .container {
@@ -103,7 +47,9 @@
       backdrop-filter: blur(12px);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
       width: 400px;
-      margin: 10px auto;
+      margin: 20px auto;
+      position: relative;
+      z-index: 1500;
     }
 
     h1 { color: #fff; margin-bottom: 15px; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
@@ -119,12 +65,10 @@
       cursor: pointer;
       transition: all 0.2s ease-in-out;
     }
-
     select:hover, button:hover {
       transform: scale(1.05);
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }
-
     #reset-btn { background: #28a745; color: white; }
     #reset-btn:hover { background: #218838; }
 
@@ -134,14 +78,6 @@
       justify-content: center;
       margin-bottom: 20px;
     }
-    .board {
-     display: grid;
-      grid-gap: 10px;
-      justify-content: center;
-      margin: 20px auto;
-}
-
-
     .cell {
       background: rgba(255,255,255,0.9);
       border-radius: 12px;
@@ -154,97 +90,46 @@
       cursor: pointer;
       transition: transform 0.2s ease, background 0.3s;
     }
-    /* Chap va o'ng tarafdagi banner konteynerlari */
-.side-banners {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    width: 100px; /* har bir banner eni */
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    padding: 5px;
-    overflow-y: scroll; /* scroll qo‘shiladi */
-    z-index: 999;
-}
-
-.side-banners.left {
-    left: 0;
-}
-
-.side-banners.right {
-    right: 0;
-}
-
-.side-banners .banner {
-    width: 100%;
-    height: 80px;
-    background: #f0f0f0;
-    border-radius: 5px;
-}
-
-
-/* Pastki bannerlar */
-.bottom-banners {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 100px; /* chap bannerlar balandligiga teng */
-    background: rgba(255,255,255,0.8);
-    display: flex;
-    gap: 5px;
-    overflow-x: auto; /* scroll qilish imkoniyati */
-    padding: 5px;
-    z-index: 999;
-}
-
-.bottom-banners .banner {
-    width: 100px;  /* chap banner eni */
-    height: 80px;  /* chap banner balandligi */
-    background: #f0f0f0;
-    border-radius: 4px;
-    flex-shrink: 0;
-    overflow: hidden;
-}
-
-
-
     .cell:hover { background: rgba(255,255,255,1); transform: scale(1.05); }
     .mark { animation: pop 0.25s ease; }
     @keyframes pop { from { transform: scale(0.5); } to { transform: scale(1); } }
 
     .winner { animation: blink 0.5s infinite alternate; background: #ffeb3b !important; }
     @keyframes blink { from { transform: scale(1); } to { transform: scale(1.15); } }
+
+    /* Reklama bannerlari */
+    .ads-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, 80px);
+      gap: 5px;
+      justify-content: center;
+      margin-top: 10px;
+      padding: 10px;
+      width: 100%;
+      position: relative;
+      z-index: 100;
+    }
+    .ad-banner {
+      width: 80px;
+      height: 80px;
+      background: #111;
+      border: 1px solid lime;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: lime;
+      font-size: 10px;
+    }
   </style>
 </head>
 <body>
-  <a href="snake.html" class="snake-button">🐍 Ilon o‘yini</a>
-  
-  
-  <!-- Banner reklama -->
-<div id="banner-ad">
-  <iframe src="https://YOUR-ADVERTEN-SMARTLINK.com" frameborder="0"></iframe>
-</div>
-<!-- Floating reklama -->
-<div id="floating-ad">
-  <iframe src="https://YOUR-ADVERTEN-SMARTLINK.com" frameborder="0"></iframe>
-</div>
-<div class="container">
-  <h1>Tic Tac Toe Multiplayer + AI</h1>
-</div>
 
-
-  <!-- Yuqoridagi reklama -->
-  <div class="ad-banner">
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="YOUR-AD-CLIENT-ID"
-         data-ad-slot="YOUR-AD-SLOT"
-         data-ad-format="auto"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  <!-- Tugmalar -->
+  <div class="top-buttons">
+    <a href="snake.html">🐍 Snake</a>
   </div>
 
+  <!-- O'yin -->
   <div class="container">
     <h1>Tic Tac Toe Multiplayer + AI</h1>
     <div class="controls">
@@ -268,61 +153,21 @@
       </select>
       <button id="reset-btn">Qayta boshlash</button>
     </div>
-
     <p id="turn-info">1-o‘yinchi (X) navbati</p>
     <div class="board" id="board"></div>
   </div>
 
-  <!-- Pastki reklama -->
-  <div class="ad-banner">
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="YOUR-AD-CLIENT-ID"
-         data-ad-slot="YOUR-AD-SLOT"
-         data-ad-format="auto"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-  </div>
- <!-- Chap taraf uchun 50 ta banner -->
-<div class="side-banners left">
-  <script>
-    for (let i = 1; i <= 50; i++) {
-      document.write('<div class="banner"><script src="https://advertenda.com/ad-script.js"></script></div>');
-    }
-  </script>
-</div>
-
-<!-- O‘ng taraf uchun 50 ta banner -->
-<div class="side-banners right">
-  <script>
-    for (let i = 1; i <= 50; i++) {
-      document.write('<div class="banner"><script src="https://advertenda.com/ad-script.js"></script></div>');
-    }
-  </script>
-</div>
-<!-- Chap taraf uchun 50 ta banner -->
-<div class="side-banners left" id="left-banners"></div>
-
-<!-- O‘ng taraf uchun 50 ta banner -->
-<div class="side-banners right" id="right-banners"></div>
-
-<!-- Pastdagi 20 ta banner -->
-<div class="bottom-banners" id="bottom-banners"></div>
-
-
-<!-- Pastdagi 500 ta banner -->
-<div class="bottom-banners" id="bottom-banners"></div>
-
-
-
+  <!-- Reklama bannerlari -->
+  <div class="ads-container" id="ads"></div>
 
   <script>
-
     const board = document.getElementById('board');
     const turnInfo = document.getElementById('turn-info');
     const resetBtn = document.getElementById('reset-btn');
     const modeSelect = document.getElementById('mode');
     const sizeSelect = document.getElementById('board-size');
     const winSelect = document.getElementById('win-length');
+    const adsContainer = document.getElementById('ads');
 
     let currentPlayer = 'X';
     let gameActive = true;
@@ -334,6 +179,7 @@
     sizeSelect.addEventListener('change', () => { size = parseInt(sizeSelect.value); createBoard(); });
     modeSelect.addEventListener('change', () => { mode = modeSelect.value; createBoard(); });
     winSelect.addEventListener('change', () => { winLength = parseInt(winSelect.value); createBoard(); });
+    resetBtn.addEventListener('click', createBoard);
 
     function createBoard() {
       board.innerHTML = '';
@@ -373,14 +219,12 @@
       cell.style.color = currentPlayer === 'X' ? '#ff4757' : '#1e90ff';
 
       const winCells = checkWin();
-if (winCells) {
-  winCells.forEach(i => board.children[i].classList.add('winner'));
-  turnInfo.textContent = currentPlayer + " g'alaba qozondi! 🎉";
-window.open("https://YOUR-ADVERTEN-SMARTLINK.com", "_blank");
- // reklamani ochish
-  gameActive = false;
-  return;
-}
+      if (winCells) {
+        winCells.forEach(i => board.children[i].classList.add('winner'));
+        turnInfo.textContent = `${currentPlayer} g‘olib bo‘ldi! 🏆`;
+        gameActive = false;
+        return;
+      }
 
       if (boardState.every(cell => cell !== '')) {
         turnInfo.textContent = "Durrang! 🤝";
@@ -396,7 +240,7 @@ window.open("https://YOUR-ADVERTEN-SMARTLINK.com", "_blank");
       let aiIndex;
       const emptyCells = boardState.map((v, i) => v === '' ? i : null).filter(v => v !== null);
       switch (mode) {
-        case 'ai1': aiIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)]; break;
+        case 'ai1': aiIndex = randomCell(emptyCells); break;
         case 'ai2': aiIndex = findWinningMove('O') || findWinningMove('X') || randomCell(emptyCells); break;
         case 'ai3': aiIndex = findWinningMove('O') || findWinningMove('X') || emptyCells[0]; break;
         case 'ai4': aiIndex = findWinningMove('O') || findWinningMove('X') || centerOrRandom(emptyCells); break;
@@ -406,7 +250,7 @@ window.open("https://YOUR-ADVERTEN-SMARTLINK.com", "_blank");
     }
 
     function randomCell(cells) { return cells[Math.floor(Math.random() * cells.length)]; }
-    function centerOrRandom(cells) { 
+    function centerOrRandom(cells) {
       const center = Math.floor((size * size) / 2);
       return boardState[center] === '' ? center : randomCell(cells);
     }
@@ -430,15 +274,17 @@ window.open("https://YOUR-ADVERTEN-SMARTLINK.com", "_blank");
         boardState[index] = 'O';
         let score = minimax(false);
         boardState[index] = '';
-        if (score > bestScore) { bestScore = score; move = index; }
+        if (score > bestScore) {
+          bestScore = score;
+          move = index;
+        }
       }
       return move;
     }
 
     function minimax(isMax) {
-      const win = checkWin();
-      if (win && currentPlayer === 'O') return 10;
-      if (win && currentPlayer === 'X') return -10;
+      if (checkWin('O')) return 10;
+      if (checkWin('X')) return -10;
       if (boardState.every(c => c !== '')) return 0;
 
       if (isMax) {
@@ -463,76 +309,45 @@ window.open("https://YOUR-ADVERTEN-SMARTLINK.com", "_blank");
         return bestScore;
       }
     }
-    let smartlinkOpened = false; // Smartlink ochilganligini kuzatish
 
     function checkWin(player = currentPlayer) {
-  for (let r = 0; r < size; r++) {
-    for (let c = 0; c <= size - winLength; c++) {
-      const cells = Array.from({ length: winLength }, (_, k) => r * size + c + k);
-      if (cells.every(i => boardState[i] === player)) return cells;
+      for (let r = 0; r < size; r++) {
+        for (let c = 0; c <= size - winLength; c++) {
+          const cells = Array.from({ length: winLength }, (_, k) => r * size + c + k);
+          if (cells.every(i => boardState[i] === player)) return cells;
+        }
+      }
+      for (let c = 0; c < size; c++) {
+        for (let r = 0; r <= size - winLength; r++) {
+          const cells = Array.from({ length: winLength }, (_, k) => (r + k) * size + c);
+          if (cells.every(i => boardState[i] === player)) return cells;
+        }
+      }
+      for (let r = 0; r <= size - winLength; r++) {
+        for (let c = 0; c <= size - winLength; c++) {
+          const cells = Array.from({ length: winLength }, (_, k) => (r + k) * size + c + k);
+          if (cells.every(i => boardState[i] === player)) return cells;
+        }
+      }
+      for (let r = 0; r <= size - winLength; r++) {
+        for (let c = winLength - 1; c < size; c++) {
+          const cells = Array.from({ length: winLength }, (_, k) => (r + k) * size + c - k);
+          if (cells.every(i => boardState[i] === player)) return cells;
+        }
+      }
+      return null;
     }
-  }
-  for (let c = 0; c < size; c++) {
-    for (let r = 0; r <= size - winLength; r++) {
-      const cells = Array.from({ length: winLength }, (_, k) => (r + k) * size + c);
-      if (cells.every(i => boardState[i] === player)) return cells;
-    }
-  }
-  for (let r = 0; r <= size - winLength; r++) {
-    for (let c = 0; c <= size - winLength; c++) {
-      const cells = Array.from({ length: winLength }, (_, k) => (r + k) * size + c + k);
-      if (cells.every(i => boardState[i] === player)) return cells;
-    }
-  }
-  for (let r = 0; r <= size - winLength; r++) {
-    for (let c = winLength - 1; c < size; c++) {
-      const cells = Array.from({ length: winLength }, (_, k) => (r + k) * size + c - k);
-      if (cells.every(i => boardState[i] === player)) return cells;
-    }
-  }
-  return null;
-}
 
+    // 1000 ta reklama qo‘shish
+    for (let i = 0; i < 1000; i++) {
+      const ad = document.createElement('div');
+      ad.classList.add('ad-banner');
+      ad.innerHTML = `<a href="https://smartlink.example.com" target="_blank">Ad ${i+1}</a>`;
+      adsContainer.appendChild(ad);
+    }
 
-    // Reset tugmasiga reklamani qo'shish
-    resetBtn.addEventListener('click', () => {
     createBoard();
-    window.open("https://YOUR-ADVERTEN-SMARTLINK.com", "_blank"); // har yangi o‘yindan oldin reklama
-});
-document.addEventListener("DOMContentLoaded", () => {
-      createBoard();
-    });
-    // Boshqa JavaScript funksiyalari shu yerda bo‘ladi
-  const advertURL = "https://YOUR-ADVERTEN-SMARTLINK.com"; // BU YERGA O'ZINGIZNING LINKNI QO'YING
-
-  // Chap taraf
-  const leftContainer = document.getElementById("left-banners");
-  for (let i = 1; i <= 50; i++) {
-    const banner = document.createElement("div");
-    banner.className = "banner";
-    banner.innerHTML = `<iframe src="${advertURL}" frameborder="0"></iframe>`;
-    leftContainer.appendChild(banner);
-  }
-
-  // O‘ng taraf
-  const rightContainer = document.getElementById("right-banners");
-  for (let i = 1; i <= 50; i++) {
-    const banner = document.createElement("div");
-    banner.className = "banner";
-    banner.innerHTML = `<iframe src="${advertURL}" frameborder="0"></iframe>`;
-    rightContainer.appendChild(banner);
-  }
-
-  // Pastki qism – 20 ta banner
-  const bottomContainer = document.getElementById("bottom-banners");
-  for (let i = 1; i <= 20; i++) {
-    const banner = document.createElement("div");
-    banner.className = "banner";
-    banner.innerHTML = `<iframe src="${advertURL}" frameborder="0"></iframe>`;
-    bottomContainer.appendChild(banner);
-  }
   </script>
-  
 </body>
 </html>
 <!DOCTYPE html>
@@ -554,221 +369,37 @@ document.addEventListener("DOMContentLoaded", () => {
       font-family: Arial, sans-serif;
     }
     .tic-tac-button {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background-color: #007bff;
-    color: white;
-    padding: 10px 15px;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: bold;
-    transition: background 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    z-index: 10000; /* Bannerlardan yuqori bo'lishi uchun */
-}
-
-
-.tic-tac-button:hover {
-    background-color: #0056b3;
-}
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: #007bff;
+      color: white;
+      padding: 10px 15px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      z-index: 10000;
+    }
+    .tic-tac-button:hover {
+      background-color: #0056b3;
+    }
 
     canvas {
       border: 2px solid lime;
       background: black;
       display: block;
     }
-    
 
-.banner {
-  position: fixed;
-  z-index: 9999;
-  background: black;
-}
+    .controls {
+      display: flex;
+      gap: 15px;
+      margin-top: 15px;
+      position: relative;
+      z-index: 1001;
+    }
 
-/* Chap va o'ng bannerlar */
-.banner-left {
-  position: absolute;
-  top: calc(50%); /* markazdan joylashadi, burchak bannerlariga tegmaydi */
-  left: 10px;
-}
-
-.banner-right {
-  position: absolute;
-  top: calc(50% - 250px);
-  right: 10px;
-}
-
-
-.banner-left iframe,
-.banner-right iframe {
-  width: 300px;
-  height: 600px;
-  border: none;
-}
-
-/* Yuqori va pastki bannerlar (ingichka) */
-.banner-top iframe,
-.banner-bottom iframe {
-  width: 728px;
-  height: 90px;
-  border: none;
-}
-
-/* Burchak bannerlari */
-.banner-top-left {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-}
-
-.banner-top-right {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
-
-.banner-bottom-left {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-}
-
-.banner-bottom-right {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-}
-
-.banner-top-left iframe,
-.banner-top-right iframe,
-.banner-bottom-left iframe,
-.banner-bottom-right iframe {
-  width: 300px;
-  height: 250px;
-  border: none;
-}
-/* O‘rta qo‘shimcha bannerlar */
-.banner-right-middle-top {
-  position: absolute;
-  top: 200px; /* yuqoridan oraliq */
-  right: 10px;
-}
-
-.banner-right-middle-bottom {
-  position: absolute;
-  bottom: 200px; /* pastdan oraliq */
-  right: 10px;
-}
-
-.banner-left-middle-top {
-  position: absolute;
-  top: 200px;
-  left: 10px;
-}
-
-.banner-left-middle-bottom {
-  position: absolute;
-  bottom: 200px;
-  left: 10px;
-}
-
-.banner-right-middle-top iframe,
-.banner-right-middle-bottom iframe,
-.banner-left-middle-top iframe,
-.banner-left-middle-bottom iframe {
-  width: 300px;
-  height: 250px;
-  border: none;
-}
-canvas {
-  border: 2px solid lime;
-  background: black;
-  display: block;
-  position: relative;
-  z-index: 1000; /* O'yin doskasi reklamadan yuqori bo'ladi */
-}
-
-.controls {
-  display: flex;
-  gap: 15px;
-  margin-top: 15px;
-  position: relative;
-  z-index: 1001; /* Tugmalar ham reklamadan yuqorida */
-}
-
-#ad-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 10; /* Reklamalar orqa fon sifatida qoladi */
-}
-
-
-
-
-
-
-
-/* Joylashuv */
-.banner-top { top: 10px; left: 50%; transform: translateX(-50%); }
-.banner-bottom { bottom: 10px; left: 50%; transform: translateX(-50%); }
-.banner-left { left: 10px; top: 50%; transform: translateY(-50%); }
-.banner-right { right: 10px; top: 50%; transform: translateY(-50%); }
-
-.banner-top-left { top: 10px; left: 10px; }
-.banner-top-right { top: 10px; right: 10px; }
-.banner-bottom-left { bottom: 10px; left: 10px; }
-.banner-bottom-right { bottom: 10px; right: 10px; }
-
-    .ad {
-  position: fixed;
-  background: rgba(0, 0, 0, 0.7);
-  color: white;
-  padding: 10px;
-  border: 2px solid lime;
-  border-radius: 8px;
-  font-size: 14px;
-  z-index: 9999;
-  text-align: center;
-  width: 120px;
-}
-.ads-container {
-  position: absolute;
-  top: 0;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.ads-container.left {
-  left: calc(50% - 320px - 10px); /* O'yin doskasidan 10px tashqariga */
-}
-
-.ads-container.right {
-  right: calc(50% - 320px - 10px); /* O'yin doskasidan 10px tashqariga */
-}
-
-.ad {
-  width: 120px;
-  height: 90px;
-  background: #222;
-  border: 1px solid lime;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.ad iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-
-    
     button, select {
       margin-top: 10px;
       padding: 10px 20px;
@@ -784,71 +415,32 @@ canvas {
     button:hover, select:hover {
       background-color: #00cc00;
     }
-    .controls {
+
+    /* Reklama karuseli */
+    #ad-section {
       display: flex;
-      gap: 15px;
-      margin-top: 15px;
+      overflow-x: auto;
+      white-space: nowrap;
+      gap: 10px;
+      margin-top: 20px;
+      padding: 10px;
+      background: #111;
+      border-top: 2px solid lime;
+      width: 100%;
+    }
+    .ad-frame {
+      width: 120px;
+      height: 90px;
+      flex: 0 0 auto;
+      border: 1px solid lime;
     }
   </style>
 </head>
 <body>
-    <a href="index.html" class="tic-tac-button">❌ Tic Tac Toe</a>
+  <a href="index.html" class="tic-tac-button">❌ Tic Tac Toe</a>
 
   <canvas id="game" width="600" height="600"></canvas>
-  <!-- Reklama bloklari -->
-<div class="banner banner-top">
-  <iframe src="reklama-banner-top.html" frameborder="0"></iframe>
-</div>
-
-<div class="banner banner-bottom">
-  <iframe src="reklama-banner-bottom.html" frameborder="0"></iframe>
-</div>
-
-<div class="banner banner-left">
-  <iframe src="reklama-banner-left.html" frameborder="0"></iframe>
-</div>
-
-<div class="banner banner-right">
-  <iframe src="reklama-banner-right.html" frameborder="0"></iframe>
-</div>
-
-<div class="banner banner-top-left">
-  <iframe src="reklama-banner-top-left.html" frameborder="0"></iframe>
-</div>
-
-<div class="banner banner-top-right">
-  <iframe src="reklama-banner-top-right.html" frameborder="0"></iframe>
-</div>
-
-<div class="banner banner-bottom-left">
-  <iframe src="reklama-banner-bottom-left.html" frameborder="0"></iframe>
-</div>
-
-<div class="banner banner-bottom-right">
-  <iframe src="reklama-banner-bottom-right.html" frameborder="0"></iframe>
-</div>
-<!-- O'ng yuqori o'rta banner -->
-<div class="banner banner-right-middle-top">
-  <iframe src="reklama-banner-right-middle-top.html" frameborder="0"></iframe>
-</div>
-
-<!-- O'ng pastki o'rta banner -->
-<div class="banner banner-right-middle-bottom">
-  <iframe src="reklama-banner-right-middle-bottom.html" frameborder="0"></iframe>
-</div>
-
-<!-- Chap yuqori o'rta banner -->
-<div class="banner banner-left-middle-top">
-  <iframe src="reklama-banner-left-middle-top.html" frameborder="0"></iframe>
-</div>
-
-<!-- Chap pastki o'rta banner -->
-<div class="banner banner-left-middle-bottom">
-  <iframe src="reklama-banner-left-middle-bottom.html" frameborder="0"></iframe>
-</div>
-
-
-
+  
   <div class="controls">
     <select id="skinSelect">
       <option value="0">Skin 1 (Yashil)</option>
@@ -862,17 +454,12 @@ canvas {
       <option value="8">Skin 9 (Siyoh)</option>
       <option value="9">Skin 10 (To'q ko'k)</option>
     </select>
-
     <button id="pauseBtn">Pauza</button>
     <button id="restartBtn">Qayta boshlash</button>
   </div>
-  <div id="ad-container"></div>
-<!-- Chap bannerlar -->
-<div id="ads-left" class="ads-container left"></div>
 
-<!-- O'ng bannerlar -->
-<div id="ads-right" class="ads-container right"></div>
-  
+  <!-- Reklama karuseli -->
+  <div id="ad-section"></div>
 
 <script>
   const canvas = document.getElementById("game");
@@ -893,53 +480,6 @@ canvas {
       speed: 0.2 + Math.random() * 0.5
     });
   }
-function createSideBanners() {
-    const bannerContainer = document.getElementById("ad-container");
-    bannerContainer.style.position = "fixed";
-    bannerContainer.style.top = "0";
-    bannerContainer.style.left = "0";
-    bannerContainer.style.width = "100%";
-    bannerContainer.style.height = "100%";
-    bannerContainer.style.pointerEvents = "none";
-
-    const bannerWidth = 120;
-    const bannerHeight = 90;
-    const padding = 5;
-    const bannersPerColumn = Math.floor(window.innerHeight / (bannerHeight + padding));
-    const totalColumnsPerSide = 1;
-
-    for (let side of ["left", "right"]) {
-      for (let col = 0; col < totalColumnsPerSide; col++) {
-        for (let row = 0; row < bannersPerColumn; row++) {
-          const ad = document.createElement("iframe");
-          ad.src = "reklama.html"; // test uchun
-          ad.style.width = `${bannerWidth}px`;
-          ad.style.height = `${bannerHeight}px`;
-          ad.style.border = "none";
-          ad.style.position = "absolute";
-          ad.style.pointerEvents = "auto";
-          ad.style.top = `${row * (bannerHeight + padding)}px`;
-          ad.style[side] = `${col * (bannerWidth + padding)}px`;
-          bannerContainer.appendChild(ad);
-        }
-      }
-    }
-  }
-
-  createSideBanners();
-
-  function createBanners(containerId, count) {
-    const container = document.getElementById(containerId);
-    for (let i = 0; i < count; i++) {
-      const banner = document.createElement("div");
-      banner.className = "ad";
-      banner.innerHTML = `<iframe src="reklama.html"></iframe>`;
-      container.appendChild(banner);
-    }
-  }
-
-  createBanners("ads-left", 5);
-  createBanners("ads-right", 5);
 
   let snake = [
     { x: 14 * box, y: 29 * box },
@@ -963,7 +503,6 @@ function createSideBanners() {
   let score = 0;
   let d = "LEFT";
 
-  // 10 skin uchun ranglar (boshi, tanasi)
   const skins = [
     { head: "lime", body: "green" },
     { head: "deepskyblue", body: "blue" },
@@ -1011,17 +550,14 @@ function createSideBanners() {
     ctx.lineWidth = 2;
     ctx.strokeRect(0, 0, canvas.width, canvas.height);
 
-    // Yilan bo'laklarini chizish
     for(let i = 0; i < snake.length; i++) {
       ctx.fillStyle = (i === snake.length - 1) ? skins[currentSkin].head : skins[currentSkin].body;
       ctx.fillRect(snake[i].x, snake[i].y, box, box);
     }
 
-    // Ovqat chizish
     ctx.fillStyle = "red";
     ctx.fillRect(food.x, food.y, box, box);
 
-    // Yilanning bosh koordinatalari
     let snakeX = snake[snake.length - 1].x;
     let snakeY = snake[snake.length - 1].y;
 
@@ -1030,10 +566,8 @@ function createSideBanners() {
     if(d === "RIGHT") snakeX += box;
     if(d === "DOWN") snakeY += box;
 
-    // Devordan o'tish
     if (snakeX < 0) snakeX = canvas.width - box;
     else if (snakeX >= canvas.width) snakeX = 0;
-
     if (snakeY < 0) snakeY = canvas.height - box;
     else if (snakeY >= canvas.height) snakeY = 0;
 
@@ -1047,12 +581,10 @@ function createSideBanners() {
     let newHead = { x: snakeX, y: snakeY };
 
     if(collision(newHead, snake)) {
-        clearInterval(game);
-        ctx.fillStyle = "red";
-        ctx.font = "30px Arial";
-        ctx.fillText("O'yin tugadi! Ballaringiz: " + score, 100, canvas.height / 2);
-        return;
-
+      clearInterval(game);
+      ctx.fillStyle = "red";
+      ctx.font = "30px Arial";
+      ctx.fillText("O'yin tugadi! Ballaringiz: " + score, 100, canvas.height / 2);
       return;
     }
 
@@ -1077,76 +609,42 @@ function createSideBanners() {
     else if(event.keyCode === 40 && d !== "UP") d = "DOWN";
   });
 
-  // Skinni o'zgartirish
   const skinSelect = document.getElementById("skinSelect");
   skinSelect.addEventListener("change", () => {
     currentSkin = +skinSelect.value;
   });
 
-  // Pauza tugmasi
   const pauseBtn = document.getElementById("pauseBtn");
   pauseBtn.addEventListener("click", () => {
     paused = !paused;
     pauseBtn.textContent = paused ? "Davom ettirish" : "Pauza";
   });
 
-  // Qayta boshlash tugmasi
-const restartBtn = document.getElementById("restartBtn");
-restartBtn.addEventListener("click", () => {
-  snake = [
-    { x: 14 * box, y: 29 * box },
-    { x: 15 * box, y: 29 * box },
-  ];
-  score = 0;
-  d = "LEFT";
-  food = randomFood();
-  paused = false;
-  pauseBtn.textContent = "Pauza";
+  const restartBtn = document.getElementById("restartBtn");
+  restartBtn.addEventListener("click", () => {
+    snake = [
+      { x: 14 * box, y: 29 * box },
+      { x: 15 * box, y: 29 * box },
+    ];
+    score = 0;
+    d = "LEFT";
+    food = randomFood();
+    paused = false;
+    pauseBtn.textContent = "Pauza";
+    clearInterval(game);
+    startGame();
+  });
 
-  clearInterval(game); // eski intervalni to'xtatish
-  startGame(); // yangi o'yinni qayta boshlash
-});
-
-function createSideBanners() {
-  const bannerContainer = document.getElementById("ad-container");
-  bannerContainer.style.position = "fixed";
-  bannerContainer.style.top = "0";
-  bannerContainer.style.left = "0";
-  bannerContainer.style.width = "100%";
-  bannerContainer.style.height = "100%";
-  bannerContainer.style.pointerEvents = "none";
-  document.body.appendChild(bannerContainer);
-
-  const bannerWidth = 120;
-  const bannerHeight = 90;
-  const padding = 5;
-  const bannersPerColumn = Math.floor(window.innerHeight / (bannerHeight + padding));
-  const totalColumnsPerSide = Math.ceil(500 / bannersPerColumn / 2);
-
-  for (let side of ["left", "right"]) {
-    for (let col = 0; col < totalColumnsPerSide; col++) {
-      for (let row = 0; row < bannersPerColumn; row++) {
-        const ad = document.createElement("iframe");
-        ad.src = "https://your-adverten-code-url"; // Adverten kodi
-        ad.style.width = `${bannerWidth}px`;
-        ad.style.height = `${bannerHeight}px`;
-        ad.style.border = "none";
-        ad.style.position = "absolute";
-        ad.style.pointerEvents = "auto"; // Reklama bosilishi uchun
-        ad.style.top = `${row * (bannerHeight + padding)}px`;
-        ad.style[side] = `${col * (bannerWidth + padding)}px`;
-
-        bannerContainer.appendChild(ad);
-      }
-    }
+  // Reklama karuseli yaratish
+  const adSection = document.getElementById("ad-section");
+  for (let i = 0; i < 1000; i++) {
+    const iframe = document.createElement("iframe");
+    iframe.src = "https://smartlink-example.com"; // SMARTLINK URL joylang
+    iframe.className = "ad-frame";
+    adSection.appendChild(iframe);
   }
-}
 
-createSideBanners();
-
-
-
+  startGame();
 </script>
-
 </body>
 </html>
