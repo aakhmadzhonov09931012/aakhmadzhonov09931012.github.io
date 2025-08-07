@@ -2,12 +2,12 @@
 <html lang="uz">
 <head>
   <meta charset="UTF-8">
-  <title>🎮 Barcha O‘yinlar</title>
+  <title>🎮 Mening O‘yinlarim</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      background: #e0f7fa;
+      background: #dff6f0;
       font-family: Arial, sans-serif;
       display: flex;
       flex-direction: column;
@@ -26,10 +26,10 @@
 
     .container {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
       gap: 20px;
       padding: 30px;
-      max-width: 1200px;
+      max-width: 1000px;
       width: 100%;
       box-sizing: border-box;
     }
@@ -38,14 +38,13 @@
       background-color: #009688;
       color: white;
       border: none;
-      padding: 25px 20px;
-      font-size: 20px;
+      padding: 20px;
+      font-size: 18px;
       text-align: center;
       border-radius: 12px;
       text-decoration: none;
       transition: background-color 0.3s, transform 0.2s;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      display: block;
     }
 
     .game-button:hover {
@@ -57,20 +56,13 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 10px;
-      padding: 30px 10px;
+      gap: 20px;
+      padding: 40px 10px;
       background: #f9f9f9;
     }
 
     iframe {
       border: none;
-    }
-
-    @media (max-width: 500px) {
-      .game-button {
-        font-size: 16px;
-        padding: 20px 10px;
-      }
     }
   </style>
 </head>
@@ -91,31 +83,27 @@
     <a class="game-button" href="platformer.html">Platformer</a>
   </div>
 
-  <!-- Reklama bannerlari (10 ta Adsterra 160x600) -->
+  <!-- 10 ta Adsterra banner (160x600) -->
   <div class="ads-container">
     <script type="text/javascript">
       for (let i = 0; i < 10; i++) {
-        const script1 = document.createElement("script");
-        script1.type = "text/javascript";
-        script1.innerHTML = `
-          atOptions = {
-            'key' : 'f8dbc3c5a480107e1646ce63fec19cd5',
-            'format' : 'iframe',
-            'height' : 600,
-            'width' : 160,
-            'params' : {}
-          };
+        const adWrapper = document.createElement('div');
+        adWrapper.innerHTML = `
+          <script type="text/javascript">
+            atOptions = {
+              'key': 'f8dbc3c5a480107e1646ce63fec19cd5',
+              'format': 'iframe',
+              'height': 600,
+              'width': 160,
+              'params': {}
+            };
+          <\/script>
+          <script type="text/javascript" src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js"><\/script>
         `;
-        const script2 = document.createElement("script");
-        script2.type = "text/javascript";
-        script2.src = "//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js";
-
-        document.currentScript.parentNode.appendChild(script1);
-        document.currentScript.parentNode.appendChild(script2);
+        document.currentScript.parentNode.appendChild(adWrapper);
       }
     </script>
   </div>
 
 </body>
 </html>
-
