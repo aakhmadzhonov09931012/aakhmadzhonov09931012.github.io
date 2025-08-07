@@ -5,28 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tic Tac Toe Multiplayer + AI</title>
 
-  <!-- Google AdSense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-  <script>
-    (adsbygoogle = window.adsbygoogle || []).push({
-      google_ad_client: "YOUR-AD-CLIENT-ID", // <-- BU YERGA O'ZINGIZNING CLIENT ID KIRITASIZ
-      enable_page_level_ads: true
-    });
-  </script>
-
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
     body { 
       background: linear-gradient(135deg, #1e90ff, #00c6ff); 
-      display: flex; flex-direction: column;
-      align-items: center; min-height: 100vh; 
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
-    .ad-banner {
-      width: 100%;
-      max-width: 728px;
-      margin: 10px auto;
-      text-align: center;
+    .top-buttons {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 10px;
+      z-index: 2000;
+    }
+    .top-buttons a {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 15px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+    .top-buttons a:hover {
+      background-color: #0056b3;
     }
 
     .container {
@@ -37,7 +46,9 @@
       backdrop-filter: blur(12px);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
       width: 400px;
-      margin: 10px auto;
+      margin: 20px auto;
+      position: relative;
+      z-index: 1500;
     }
 
     h1 { color: #fff; margin-bottom: 15px; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
@@ -53,12 +64,10 @@
       cursor: pointer;
       transition: all 0.2s ease-in-out;
     }
-
     select:hover, button:hover {
       transform: scale(1.05);
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }
-
     #reset-btn { background: #28a745; color: white; }
     #reset-btn:hover { background: #218838; }
 
@@ -68,7 +77,6 @@
       justify-content: center;
       margin-bottom: 20px;
     }
-
     .cell {
       background: rgba(255,255,255,0.9);
       border-radius: 12px;
@@ -81,25 +89,41 @@
       cursor: pointer;
       transition: transform 0.2s ease, background 0.3s;
     }
-
     .cell:hover { background: rgba(255,255,255,1); transform: scale(1.05); }
     .mark { animation: pop 0.25s ease; }
     @keyframes pop { from { transform: scale(0.5); } to { transform: scale(1); } }
 
     .winner { animation: blink 0.5s infinite alternate; background: #ffeb3b !important; }
     @keyframes blink { from { transform: scale(1); } to { transform: scale(1.15); } }
+
+    .ads-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, 80px);
+      gap: 5px;
+      justify-content: center;
+      margin-top: 10px;
+      padding: 10px;
+      width: 100%;
+      position: relative;
+      z-index: 100;
+    }
+    .ad-banner {
+      width: 80px;
+      height: 80px;
+      background: #111;
+      border: 1px solid lime;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: lime;
+      font-size: 10px;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Yuqoridagi reklama -->
-  <div class="ad-banner">
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="YOUR-AD-CLIENT-ID"
-         data-ad-slot="YOUR-AD-SLOT"
-         data-ad-format="auto"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  <div class="top-buttons">
+    <a href="snake.html">🐍 Snake</a>
   </div>
 
   <div class="container">
@@ -125,19 +149,25 @@
       </select>
       <button id="reset-btn">Qayta boshlash</button>
     </div>
-
     <p id="turn-info">1-o‘yinchi (X) navbati</p>
     <div class="board" id="board"></div>
   </div>
 
-  <!-- Pastki reklama -->
-  <div class="ad-banner">
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="YOUR-AD-CLIENT-ID"
-         data-ad-slot="YOUR-AD-SLOT"
-         data-ad-format="auto"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  <!-- ✅ Reklama qo‘yiladigan joy -->
+  <div id="ads" class="ads-container"></div>
+
+  <!-- Adsterra banner -->
+  <div style="margin: 20px 0;">
+    <script type="text/javascript">
+      atOptions = {
+        'key' : 'cd6293ca7f540f6f45705d449c7f4748',
+        'format' : 'iframe',
+        'height' : 300,
+        'width' : 160,
+        'params' : {}
+      };
+    </script>
+    <script type="text/javascript" src="//www.highperformanceformat.com/cd6293ca7f540f6f45705d449c7f4748/invoke.js"></script>
   </div>
 
   <script>
@@ -147,6 +177,7 @@
     const modeSelect = document.getElementById('mode');
     const sizeSelect = document.getElementById('board-size');
     const winSelect = document.getElementById('win-length');
+    const adsContainer = document.getElementById('ads');
 
     let currentPlayer = 'X';
     let gameActive = true;
@@ -158,6 +189,7 @@
     sizeSelect.addEventListener('change', () => { size = parseInt(sizeSelect.value); createBoard(); });
     modeSelect.addEventListener('change', () => { mode = modeSelect.value; createBoard(); });
     winSelect.addEventListener('change', () => { winLength = parseInt(winSelect.value); createBoard(); });
+    resetBtn.addEventListener('click', createBoard);
 
     function createBoard() {
       board.innerHTML = '';
@@ -199,7 +231,7 @@
       const winCells = checkWin();
       if (winCells) {
         winCells.forEach(i => board.children[i].classList.add('winner'));
-        turnInfo.textContent = `${currentPlayer} yutdi! 🎉`;
+        turnInfo.textContent = `${currentPlayer} g‘olib bo‘ldi! 🏆`;
         gameActive = false;
         return;
       }
@@ -218,7 +250,7 @@
       let aiIndex;
       const emptyCells = boardState.map((v, i) => v === '' ? i : null).filter(v => v !== null);
       switch (mode) {
-        case 'ai1': aiIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)]; break;
+        case 'ai1': aiIndex = randomCell(emptyCells); break;
         case 'ai2': aiIndex = findWinningMove('O') || findWinningMove('X') || randomCell(emptyCells); break;
         case 'ai3': aiIndex = findWinningMove('O') || findWinningMove('X') || emptyCells[0]; break;
         case 'ai4': aiIndex = findWinningMove('O') || findWinningMove('X') || centerOrRandom(emptyCells); break;
@@ -228,7 +260,7 @@
     }
 
     function randomCell(cells) { return cells[Math.floor(Math.random() * cells.length)]; }
-    function centerOrRandom(cells) { 
+    function centerOrRandom(cells) {
       const center = Math.floor((size * size) / 2);
       return boardState[center] === '' ? center : randomCell(cells);
     }
@@ -252,15 +284,17 @@
         boardState[index] = 'O';
         let score = minimax(false);
         boardState[index] = '';
-        if (score > bestScore) { bestScore = score; move = index; }
+        if (score > bestScore) {
+          bestScore = score;
+          move = index;
+        }
       }
       return move;
     }
 
     function minimax(isMax) {
-      const win = checkWin();
-      if (win && currentPlayer === 'O') return 10;
-      if (win && currentPlayer === 'X') return -10;
+      if (checkWin('O')) return 10;
+      if (checkWin('X')) return -10;
       if (boardState.every(c => c !== '')) return 0;
 
       if (isMax) {
@@ -314,7 +348,14 @@
       return null;
     }
 
-    resetBtn.addEventListener('click', createBoard);
+    // 1000 ta reklama qo‘shish
+    for (let i = 0; i < 1000; i++) {
+      const ad = document.createElement('div');
+      ad.classList.add('ad-banner');
+      ad.innerHTML = `<a href="https://smartlink.example.com" target="_blank">Ad ${i+1}</a>`;
+      adsContainer.appendChild(ad);
+    }
+
     createBoard();
   </script>
 </body>
