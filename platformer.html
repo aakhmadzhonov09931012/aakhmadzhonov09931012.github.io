@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <title>🏃 Platformer O'yini</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #333; overflow: hidden; color: white; font-family: sans-serif; }
+
+    canvas { background: linear-gradient(to top, #444, #111); display: block; margin: auto; }
+
+    .ads-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, 160px);
+      gap: 10px;
+      justify-content: center;
+      margin: 15px auto;
+      padding: 10px;
+      max-width: 1000px;
+    }
+
+    .top-buttons {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 9999;
+    }
+
+    .top-buttons a {
+      background: #0c0;
+      color: black;
+      padding: 8px 12px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-buttons">
+  <a href="index.html">❌ Tic Tac Toe</a>
+  <a href="snake.html">🐍 Snake</a>
+</div>
+
+<canvas id="game" width="800" height="400"></canvas>
+
+<!-- Reklama joyi -->
+<div class="ads-container">
+  <script type="text/javascript">
+    for (let i = 0; i < 10; i++) {
+      document.write(`
+        <script type="text/javascript">
+          atOptions = {
+            'key' : 'f8dbc3c5a480107e1646ce63fec19cd5',
+            'format' : 'iframe',
+            'height' : 600,
+            'width' : 160,
+            'params' : {}
+          };
+        <\/script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js"><\/script>
+      `);
+    }
+  </script>
+</div>
+
+<script>
+  const canvas = document.getElementById('game');
+  const ctx = canvas.getContext('2d');
+
+  let player = {
+    x: 50,
+    y: 0,
+    width: 40,
+    height: 40,
+    velocityX: 0,
+    velocityY: 0,
+    onGround: false
+  };
+
+  const gravity = 0.5;
+  const friction = 0.8;
+  const keys = {};
+
+  const platforms = [
+    { x: 0, y: 380, width: 800, height: 20 },
+    { x: 150, y: 300, width: 100, height: 10 },
+    { x: 300, y: 250, width: 100, height: 10 },
+    { x: 450, y: 200, width: 100, height: 10 },
+    { x: 600, y: 150, width: 100, height: 10 }
+  ];
+
+  function drawPlayer() {
+    ctx.fillStyle = "lime";
+    ctx.fillRect(player.x, player.y, player.width, player.height);
+  }
+
+  function drawPlatforms() {
+    ctx.fillStyle = "white";
+    platforms.forEach(p => ctx.fillRect(p.x, p.y, p.width, p.height));
+  }
+
+  function updatePlayer() {
+    player.velocityY += gravity;
+    player.x += player.velocityX;
+    player.y += player.velocityY;
+    player.onGround = false;
+
+    platforms.forEach(p => {
+      if (
+        player.x < p.x + p.width &&
+        player.x + player.width > p.x &&
+        player.y + player.height < p.y + player.velocityY + 1 &&
+        player.y + player.height + player.velocityY > p.y
+      ) {
+        player.y = p.y - player.height;
+        player.velocityY = 0;
+        player.onGround = true;
+      }
+    });
+
+    if (player.x < 0) player.x = 0;
+    if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
+    if (player.y + player.height > canvas.height) {
+      player.y = 0;
+      player.velocityY = 0;
+      player.x = 50;
+    }
+
+    player.velocityX *= friction;
+  }
+
+  function loop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawPlatforms();
+    drawPlayer();
+    updatePlayer();
+    requestAnimationFrame(loop);
+  }
+
+  document.addEventListener("keydown", e => {
+    keys[e.key] = true;
+
+    if ((e.key === "ArrowUp" || e.key === " " || e.key === "w") && player.onGround) {
+      player.velocityY = -10;
+    }
+  });
+
+  document.addEventListener("keyup", e => {
+    keys[e.key] = false;
+  });
+
+  function handleKeys() {
+    if (keys["ArrowLeft"] || keys["a"]) {
+      player.velocityX = -5;
+    }
+    if (keys["ArrowRight"] || keys["d"]) {
+      player.velocityX = 5;
+    }
+    requestAnimationFrame(handleKeys);
+  }
+
+  loop();
+  handleKeys();
+</script>
+</body>
+</html>
