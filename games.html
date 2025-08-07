@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <title>🎮 Barcha O‘yinlar</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #e0f7fa;
+      font-family: Arial, sans-serif;
+    }
+
+    h1 {
+      text-align: center;
+      padding: 20px;
+      background-color: #00796b;
+      color: white;
+      margin: 0;
+      font-size: 36px;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 30px;
+    }
+
+    .game-button {
+      background-color: #009688;
+      color: white;
+      border: none;
+      padding: 25px 20px;
+      font-size: 20px;
+      text-align: center;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: background-color 0.3s, transform 0.2s;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .game-button:hover {
+      background-color: #00796b;
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 500px) {
+      .game-button {
+        font-size: 16px;
+        padding: 20px 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎮 Mening O‘yinlarim</h1>
+
+  <div class="container">
+    <a class="game-button" href="index.html">Tic Tac Toe</a>
+    <a class="game-button" href="snake.html">Snake</a>
+    <a class="game-button" href="flappy.html">Flappy Bird</a>
+    <a class="game-button" href="2048.html">2048</a>
+    <a class="game-button" href="tetris.html">Tetris</a>
+    <a class="game-button" href="memory.html">Memory Cards</a>
+    <a class="game-button" href="arkanoid.html">Arkanoid</a>
+    <a class="game-button" href="pong.html">Pong</a>
+    <a class="game-button" href="spaceshooter.html">Space Shooter</a>
+    <a class="game-button" href="platformer.html">Platformer</a>
+  </div>
+
+</body>
+</html>
