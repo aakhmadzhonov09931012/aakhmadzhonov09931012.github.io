@@ -67,32 +67,33 @@
   <h1>2048 O‘yini</h1>
   <button id="reset-btn">Qayta boshlash</button>
   <div id="game-container"></div>
+<div class="ads-container">
+  <!-- 10 ta Adsterra 160x600 banner -->
+  <script type="text/javascript">
+    atOptions = {
+      'key' : 'f8dbc3c5a480107e1646ce63fec19cd5',
+      'format' : 'iframe',
+      'height' : 600,
+      'width' : 160,
+      'params' : {}
+    };
+  </script>
+  <script type="text/javascript" src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js"></script>
 
-  <!-- Reklama bannerlari (10 ta Adsterra 160x600) -->
-  <div class="ads-container">
-    <!-- Takrorlanuvchi scriptlar -->
-    <script>
-      for (let i = 0; i < 10; i++) {
-        const script1 = document.createElement("script");
-        script1.type = "text/javascript";
-        script1.innerHTML = `
-          atOptions = {
-            'key' : 'f8dbc3c5a480107e1646ce63fec19cd5',
-            'format' : 'iframe',
-            'height' : 600,
-            'width' : 160,
-            'params' : {}
-          };
-        `;
-        const script2 = document.createElement("script");
-        script2.type = "text/javascript";
-        script2.src = "//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js";
+  <!-- Bir xil kodni 10 marta takrorlang -->
+  <script type="text/javascript">
+    for (let i = 1; i < 10; i++) {
+      const iframe = document.createElement("iframe");
+      iframe.src = "https://www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js";
+      iframe.width = "160";
+      iframe.height = "600";
+      iframe.setAttribute("frameborder", "0");
+      iframe.setAttribute("scrolling", "no");
+      document.querySelector(".ads-container").appendChild(iframe);
+    }
+  </script>
+</div>
 
-        document.currentScript.parentNode.appendChild(script1);
-        document.currentScript.parentNode.appendChild(script2);
-      }
-    </script>
-  </div>
 
   <script>
     const container = document.getElementById('game-container');
@@ -196,3 +197,4 @@
   </script>
 </body>
 </html>
+
