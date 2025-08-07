@@ -16,7 +16,6 @@
       overflow-x: hidden;
     }
 
-    /* Yuqori burchak tugmalari */
     .top-buttons {
       position: absolute;
       top: 20px;
@@ -97,39 +96,24 @@
     .winner { animation: blink 0.5s infinite alternate; background: #ffeb3b !important; }
     @keyframes blink { from { transform: scale(1); } to { transform: scale(1.15); } }
 
-    /* Reklama bannerlari */
     .ads-container {
       display: grid;
-      grid-template-columns: repeat(auto-fill, 80px);
-      gap: 5px;
+      grid-template-columns: repeat(auto-fill, 160px);
+      gap: 10px;
       justify-content: center;
-      margin-top: 10px;
+      margin-top: 20px;
       padding: 10px;
       width: 100%;
-      position: relative;
-      z-index: 100;
-    }
-    .ad-banner {
-      width: 80px;
-      height: 80px;
-      background: #111;
-      border: 1px solid lime;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: lime;
-      font-size: 10px;
+      max-width: 1000px;
     }
   </style>
 </head>
 <body>
 
-  <!-- Tugmalar -->
   <div class="top-buttons">
     <a href="snake.html">🐍 Snake</a>
   </div>
 
-  <!-- O'yin -->
   <div class="container">
     <h1>Tic Tac Toe Multiplayer + AI</h1>
     <div class="controls">
@@ -157,8 +141,21 @@
     <div class="board" id="board"></div>
   </div>
 
-  <!-- Reklama bannerlari -->
-  <div class="ads-container" id="ads"></div>
+  <!-- 10 ta Adsterra banner -->
+  <div class="ads-container">
+    <!-- Har bir iframe uchun alohida script -->
+    <script type="text/javascript">
+      atOptions = {
+        'key' : 'f8dbc3c5a480107e1646ce63fec19cd5',
+        'format' : 'iframe',
+        'height' : 600,
+        'width' : 160,
+        'params' : {}
+      };
+    </script>
+    <!-- 10 marta iframe qo‘shamiz -->
+    <script type="text/javascript" src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js"></script>
+  </div>
 
   <script>
     const board = document.getElementById('board');
@@ -167,7 +164,6 @@
     const modeSelect = document.getElementById('mode');
     const sizeSelect = document.getElementById('board-size');
     const winSelect = document.getElementById('win-length');
-    const adsContainer = document.getElementById('ads');
 
     let currentPlayer = 'X';
     let gameActive = true;
@@ -338,19 +334,7 @@
       return null;
     }
 
-    // 1000 ta reklama qo‘shish
-    for (let i = 0; i < 1000; i++) {
-      const ad = document.createElement('div');
-      ad.classList.add('ad-banner');
-      ad.innerHTML = `<a href="https://smartlink.example.com" target="_blank">Ad ${i+1}</a>`;
-      adsContainer.appendChild(ad);
-    }
-
     createBoard();
   </script>
-  <script type='text/javascript' src='//pl27365346.profitableratecpm.com/08/e3/9e/08e39e33f8bb5258b848bbedb581e1ef.js'></script>
-
 </body>
 </html>
-
-
