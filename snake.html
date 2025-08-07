@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Snake o'yini - skinlar va pauza</title>
+  
   <style>
     body {
       margin: 0;
@@ -15,11 +16,38 @@
       color: white;
       font-family: Arial, sans-serif;
     }
+    .tic-tac-button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: #007bff;
+      color: white;
+      padding: 10px 15px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      z-index: 10000;
+    }
+    .tic-tac-button:hover {
+      background-color: #0056b3;
+    }
+
     canvas {
       border: 2px solid lime;
       background: black;
       display: block;
     }
+
+    .controls {
+      display: flex;
+      gap: 15px;
+      margin-top: 15px;
+      position: relative;
+      z-index: 1001;
+    }
+
     button, select {
       margin-top: 10px;
       padding: 10px 20px;
@@ -35,17 +63,32 @@
     button:hover, select:hover {
       background-color: #00cc00;
     }
-    .controls {
+
+    /* Reklama karuseli */
+    #ad-section {
       display: flex;
-      gap: 15px;
-      margin-top: 15px;
+      overflow-x: auto;
+      white-space: nowrap;
+      gap: 10px;
+      margin-top: 20px;
+      padding: 10px;
+      background: #111;
+      border-top: 2px solid lime;
+      width: 100%;
+    }
+    .ad-frame {
+      width: 120px;
+      height: 90px;
+      flex: 0 0 auto;
+      border: 1px solid lime;
     }
   </style>
 </head>
 <body>
+  <a href="index.html" class="tic-tac-button">❌ Tic Tac Toe</a>
 
   <canvas id="game" width="600" height="600"></canvas>
-
+  
   <div class="controls">
     <select id="skinSelect">
       <option value="0">Skin 1 (Yashil)</option>
@@ -59,10 +102,29 @@
       <option value="8">Skin 9 (Siyoh)</option>
       <option value="9">Skin 10 (To'q ko'k)</option>
     </select>
-
     <button id="pauseBtn">Pauza</button>
     <button id="restartBtn">Qayta boshlash</button>
   </div>
+
+  <!-- Reklama karuseli -->
+  <div id="ad-section"></div>
+<a href="https://aakhmadzhonov09931012.github.io/snake.html" 
+   style="position: fixed; top: 10px; left: 10px; background-color: #4CAF50; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; z-index: 9999;">
+  🐍 Back to Snake
+</a>
+<!-- Adsterra 160x600 reklama -->
+<div style="position: fixed; right: 0; top: 50%; transform: translateY(-50%); z-index: 9999;">
+  <script type="text/javascript">
+    atOptions = {
+      'key' : 'f8dbc3c5a480107e1646ce63fec19cd5',
+      'format' : 'iframe',
+      'height' : 600,
+      'width' : 160,
+      'params' : {}
+    };
+  </script>
+  <script type="text/javascript" src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js"></script>
+</div>
 
 <script>
   const canvas = document.getElementById("game");
@@ -106,7 +168,6 @@
   let score = 0;
   let d = "LEFT";
 
-  // 10 skin uchun ranglar (boshi, tanasi)
   const skins = [
     { head: "lime", body: "green" },
     { head: "deepskyblue", body: "blue" },
@@ -154,17 +215,14 @@
     ctx.lineWidth = 2;
     ctx.strokeRect(0, 0, canvas.width, canvas.height);
 
-    // Yilan bo'laklarini chizish
     for(let i = 0; i < snake.length; i++) {
       ctx.fillStyle = (i === snake.length - 1) ? skins[currentSkin].head : skins[currentSkin].body;
       ctx.fillRect(snake[i].x, snake[i].y, box, box);
     }
 
-    // Ovqat chizish
     ctx.fillStyle = "red";
     ctx.fillRect(food.x, food.y, box, box);
 
-    // Yilanning bosh koordinatalari
     let snakeX = snake[snake.length - 1].x;
     let snakeY = snake[snake.length - 1].y;
 
@@ -173,10 +231,8 @@
     if(d === "RIGHT") snakeX += box;
     if(d === "DOWN") snakeY += box;
 
-    // Devordan o'tish
     if (snakeX < 0) snakeX = canvas.width - box;
     else if (snakeX >= canvas.width) snakeX = 0;
-
     if (snakeY < 0) snakeY = canvas.height - box;
     else if (snakeY >= canvas.height) snakeY = 0;
 
@@ -191,7 +247,9 @@
 
     if(collision(newHead, snake)) {
       clearInterval(game);
-      alert("O'yin tugadi! Ballaringiz: " + score);
+      ctx.fillStyle = "red";
+      ctx.font = "30px Arial";
+      ctx.fillText("O'yin tugadi! Ballaringiz: " + score, 100, canvas.height / 2);
       return;
     }
 
@@ -216,20 +274,17 @@
     else if(event.keyCode === 40 && d !== "UP") d = "DOWN";
   });
 
-  // Skinni o'zgartirish
   const skinSelect = document.getElementById("skinSelect");
   skinSelect.addEventListener("change", () => {
     currentSkin = +skinSelect.value;
   });
 
-  // Pauza tugmasi
   const pauseBtn = document.getElementById("pauseBtn");
   pauseBtn.addEventListener("click", () => {
     paused = !paused;
     pauseBtn.textContent = paused ? "Davom ettirish" : "Pauza";
   });
 
-  // Qayta boshlash tugmasi
   const restartBtn = document.getElementById("restartBtn");
   restartBtn.addEventListener("click", () => {
     snake = [
@@ -241,12 +296,20 @@
     food = randomFood();
     paused = false;
     pauseBtn.textContent = "Pauza";
+    clearInterval(game);
+    startGame();
   });
 
+  // Reklama karuseli yaratish
+  const adSection = document.getElementById("ad-section");
+  for (let i = 0; i < 1000; i++) {
+    const iframe = document.createElement("iframe");
+    iframe.src = "https://smartlink-example.com"; // SMARTLINK URL joylang
+    iframe.className = "ad-frame";
+    adSection.appendChild(iframe);
+  }
+
   startGame();
-
 </script>
-
 </body>
 </html>
-
