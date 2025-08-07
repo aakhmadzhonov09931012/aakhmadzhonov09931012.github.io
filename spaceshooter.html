@@ -7,20 +7,24 @@
   <style>
     body {
       margin: 0;
-      overflow: hidden;
       background: black;
       font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
     }
     canvas {
       display: block;
       background: radial-gradient(circle at center, #111, #000);
+      margin: 40px auto;
     }
     .ads-container {
       display: grid;
       grid-template-columns: repeat(auto-fill, 160px);
       gap: 10px;
       justify-content: center;
-      margin: 10px auto;
+      margin: 20px auto;
       padding: 10px;
       width: 100%;
       max-width: 1000px;
@@ -41,6 +45,11 @@
       font-weight: bold;
       margin-left: 10px;
     }
+    #game-over {
+      color: red;
+      font-size: 24px;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
@@ -50,6 +59,7 @@
   </div>
 
   <canvas id="gameCanvas" width="480" height="640"></canvas>
+  <div id="game-over"></div>
 
   <!-- Reklama (10 ta Adsterra iframe) -->
   <div class="ads-container">
@@ -70,142 +80,11 @@
       }
     </script>
   </div>
-  <!-- Banner 1 -->
-  <script type="text/javascript">
-    atOptions = {
-      'key': 'f8dbc3c5a480107e1646ce63fec19cd5',
-      'format': 'iframe',
-      'height': 600,
-      'width': 160,
-      'params': {}
-    };
-  </script>
-  <script type="text/javascript" src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js"></script>
-  <!-- Banner 2 -->
-  <script type="text/javascript">
-    atOptions = {
-      'key': 'f8dbc3c5a480107e1646ce63fec19cd5',
-      'format': 'iframe',
-      'height': 600,
-      'width': 160,
-      'params': {}
-    };
-  </script>
-  <script type="text/javascript" src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js"></script>
-  <!-- Banner 3 -->
-  <script type="text/javascript">
-    atOptions = {
-      'key': 'f8dbc3c5a480107e1646ce63fec19cd5',
-      'format': 'iframe',
-      'height': 600,
-      'width': 160,
-      'params': {}
-    };
-  </script>
-  <script type="text/javascript" src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js"></script>
-  <!-- Banner 4 -->
-  <script type="text/javascript">
-    atOptions = {
-      'key': 'f8dbc3c5a480107e1646ce63fec19cd5',
-      'format': 'iframe',
-      'height': 600,
-      'width': 160,
-      'params': {}
-    };
-  </script>
-  <script type="text/javascript" src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js"></script>
-  <!-- Banner 5 -->
-  <script type="text/javascript">
-    atOptions = {
-      'key': 'f8dbc3c5a480107e1646ce63fec19cd5',
-      'format': 'iframe',
-      'height': 600,
-      'width': 160,
-      'params': {}
-    };
-  </script>
-  <script type="text/javascript" src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js"></script>
-  <!-- Banner 6 -->
-  <script type="text/javascript">
-    atOptions = {
-      'key': 'f8dbc3c5a480107e1646ce63fec19cd5',
-      'format': 'iframe',
-      'height': 600,
-      'width': 160,
-      'params': {}
-    };
-  </script>
-  <script type="text/javascript" src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js"></script>
-  <!-- Banner 7 -->
-  <script type="text/javascript">
-    atOptions = {
-      'key': 'f8dbc3c5a480107e1646ce63fec19cd5',
-      'format': 'iframe',
-      'height': 600,
-      'width': 160,
-      'params': {}
-    };
-  </script>
-  <script type="text/javascript" src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js"></script>
-  <!-- Banner 8 -->
-  <script type="text/javascript">
-    atOptions = {
-      'key': 'f8dbc3c5a480107e1646ce63fec19cd5',
-      'format': 'iframe',
-      'height': 600,
-      'width': 160,
-      'params': {}
-    };
-  </script>
-  <script type="text/javascript" src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js"></script>
-  <!-- Banner 9 -->
-  <script type="text/javascript">
-    atOptions = {
-      'key': 'f8dbc3c5a480107e1646ce63fec19cd5',
-      'format': 'iframe',
-      'height': 600,
-      'width': 160,
-      'params': {}
-    };
-  </script>
-  <script type="text/javascript" src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js"></script>
-  <!-- Banner 10 -->
-  <script type="text/javascript">
-    atOptions = {
-      'key': 'f8dbc3c5a480107e1646ce63fec19cd5',
-      'format': 'iframe',
-      'height': 600,
-      'width': 160,
-      'params': {}
-    };
-  </script>
-  <script type="text/javascript" src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js"></script>
-  <!-- Banner 11 -->
-  <script type="text/javascript">
-    atOptions = {
-      'key': 'f8dbc3c5a480107e1646ce63fec19cd5',
-      'format': 'iframe',
-      'height': 600,
-      'width': 160,
-      'params': {}
-    };
-  </script>
-  <script type="text/javascript" src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js"></script>
-  <!-- Banner 12 -->
-  <script type="text/javascript">
-    atOptions = {
-      'key': 'f8dbc3c5a480107e1646ce63fec19cd5',
-      'format': 'iframe',
-      'height': 600,
-      'width': 160,
-      'params': {}
-    };
-  </script>
-  <script type="text/javascript" src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js"></script>
 
   <script>
     const canvas = document.getElementById("gameCanvas");
     const ctx = canvas.getContext("2d");
+    const gameOverText = document.getElementById("game-over");
 
     const ship = {
       x: canvas.width / 2 - 20,
@@ -222,6 +101,7 @@
 
     let score = 0;
     let keys = {};
+    let gameOver = false;
 
     function drawShip() {
       ctx.fillStyle = "lime";
@@ -248,7 +128,6 @@
         ctx.fillRect(e.x, e.y, enemySize, enemySize);
         e.y += enemySpeed;
 
-        // Check collision
         ship.bullets.forEach((b, bi) => {
           if (
             b.x < e.x + enemySize &&
@@ -262,10 +141,9 @@
           }
         });
 
-        // Game Over
         if (e.y + enemySize > canvas.height) {
-          alert("O'yin tugadi! Hisob: " + score);
-          document.location.reload();
+          gameOver = true;
+          gameOverText.textContent = "O'yin tugadi! Hisob: " + score;
         }
       });
     }
@@ -277,9 +155,10 @@
     }
 
     function gameLoop() {
+      if (gameOver) return;
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Move ship
       if (keys["ArrowLeft"] && ship.x > 0) ship.x -= ship.speed;
       if (keys["ArrowRight"] && ship.x + ship.width < canvas.width) ship.x += ship.speed;
 
@@ -292,13 +171,14 @@
     }
 
     function spawnEnemy() {
+      if (gameOver) return;
       const x = Math.random() * (canvas.width - enemySize);
       enemies.push({ x: x, y: -enemySize });
     }
 
     document.addEventListener("keydown", e => {
       keys[e.key] = true;
-      if (e.key === " " || e.key === "ArrowUp") {
+      if ((e.key === " " || e.key === "ArrowUp") && !gameOver) {
         ship.bullets.push({
           x: ship.x + ship.width / 2 - 2,
           y: ship.y
