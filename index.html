@@ -81,6 +81,10 @@
       </select>
       <select id="mode">
         <option value="2player">2 O'yinchi</option>
+        <option value="ai1">AI – Juda oson</option>
+        <option value="ai2">AI – Oson</option>
+        <option value="ai3">AI – O‘rtacha</option>
+        <option value="ai4">AI – Qiyin</option>
         <option value="ai5" selected>AI – Juda qiyin</option>
       </select>
       <button id="reset-btn">Qayta boshlash</button>
@@ -89,15 +93,7 @@
     <div class="board" id="board"></div>
   </div>
 
-  <div class="ads-container">
-    <script type="text/javascript">
-      for (let i = 0; i < 10; i++) {
-        document.write(`
-          <iframe src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js" width="160" height="600" style="border:none;"></iframe>
-        `);
-      }
-    </script>
-  </div>
+  <div class="ads-container" id="ads"></div>
 
   <script>
     const board = document.getElementById('board');
@@ -117,6 +113,7 @@
     sizeSelect.addEventListener('change', () => { size = +sizeSelect.value; createBoard(); });
     winSelect.addEventListener('change', () => { winLength = +winSelect.value; createBoard(); });
     modeSelect.addEventListener('change', () => { mode = modeSelect.value; createBoard(); });
+
     resetBtn.addEventListener('click', () => {
       window.open('https://www.profitableratecpm.com/u9wehwjjt?key=53e7e87d25cbb0fb8bd26f3c73a9251e', '_blank');
       createBoard();
@@ -146,7 +143,7 @@
       const index = +e.target.dataset.index;
       if (!gameActive || boardState[index] !== '') return;
       makeMove(index);
-      if (mode === 'ai5' && gameActive && currentPlayer === 'O') {
+      if (mode !== '2player' && gameActive && currentPlayer === 'O') {
         setTimeout(aiMove, 300);
       }
     }
@@ -197,20 +194,33 @@
           const diag1 = [], diag2 = [];
           for (let i = 0; i < winLength; i++) {
             diag1.push((r + i) * size + (c + i));
-            diag2.push((r + i) * size + (c + winLength - i - 1));
+            diag2.push((r + i) * size + (c + winLength - 1 - i));
           }
           lines.push(diag1, diag2);
         }
       }
-      return lines.find(line => line.every(i => boardState[i] === currentPlayer));
+      for (const line of lines) {
+        if (line.every(i => boardState[i] === currentPlayer)) return line;
+      }
+      return null;
     }
 
     function aiMove() {
       let bestScore = -Infinity, move;
+      let depthLimit;
+      switch (mode) {
+        case 'ai1': depthLimit = 1; break;
+        case 'ai2': depthLimit = 2; break;
+        case 'ai3': depthLimit = 3; break;
+        case 'ai4': depthLimit = 5; break;
+        case 'ai5': depthLimit = Infinity; break;
+        default: return;
+      }
+
       for (let i = 0; i < boardState.length; i++) {
         if (boardState[i] === '') {
           boardState[i] = 'O';
-          const score = minimax(0, false, -Infinity, Infinity);
+          const score = minimax(0, false, -Infinity, Infinity, depthLimit);
           boardState[i] = '';
           if (score > bestScore) {
             bestScore = score;
@@ -218,20 +228,22 @@
           }
         }
       }
-      makeMove(move);
+
+      if (move !== undefined) makeMove(move);
     }
 
-    function minimax(depth, isMaximizing, alpha, beta) {
+    function minimax(depth, isMaximizing, alpha, beta, depthLimit) {
       const win = checkWin();
       if (win) return (currentPlayer === 'O' ? 1 : -1) * (10 - depth);
       if (!boardState.includes('')) return 0;
+      if (depth >= depthLimit) return 0;
 
       if (isMaximizing) {
         let maxEval = -Infinity;
         for (let i = 0; i < boardState.length; i++) {
           if (boardState[i] === '') {
             boardState[i] = 'O';
-            const eval = minimax(depth + 1, false, alpha, beta);
+            const eval = minimax(depth + 1, false, alpha, beta, depthLimit);
             boardState[i] = '';
             maxEval = Math.max(maxEval, eval);
             alpha = Math.max(alpha, eval);
@@ -244,7 +256,7 @@
         for (let i = 0; i < boardState.length; i++) {
           if (boardState[i] === '') {
             boardState[i] = 'X';
-            const eval = minimax(depth + 1, true, alpha, beta);
+            const eval = minimax(depth + 1, true, alpha, beta, depthLimit);
             boardState[i] = '';
             minEval = Math.min(minEval, eval);
             beta = Math.min(beta, eval);
@@ -255,8 +267,19 @@
       }
     }
 
+    // Reklama qo‘shish
+    const adsContainer = document.getElementById('ads');
+    for (let i = 0; i < 5; i++) {
+      const iframe = document.createElement('iframe');
+      iframe.src = "//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js";
+      iframe.width = "160";
+      iframe.height = "600";
+      iframe.style.border = "none";
+      adsContainer.appendChild(iframe);
+    }
+
+    // Boshlanish
     createBoard();
   </script>
 </body>
 </html>
-
