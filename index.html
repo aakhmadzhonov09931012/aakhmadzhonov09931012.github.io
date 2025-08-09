@@ -121,8 +121,8 @@
 
     function createBoard() {
       board.innerHTML = '';
-      board.style.gridTemplateColumns = `repeat(${size}, 70px)`;
-      board.style.gridTemplateRows = `repeat(${size}, 70px)`;
+      board.style.gridTemplateColumns = repeat(${size}, 70px);
+      board.style.gridTemplateRows = repeat(${size}, 70px);
       boardState = Array(size * size).fill('');
       currentPlayer = 'X';
       gameActive = true;
@@ -158,7 +158,7 @@
       const winCells = checkWin();
       if (winCells) {
         winCells.forEach(i => board.children[i].classList.add('winner'));
-        turnInfo.textContent = `${currentPlayer} g‘olib bo‘ldi! 🏆`;
+        turnInfo.textContent = ${currentPlayer} g‘olib bo‘ldi! 🏆;
         gameActive = false;
         return;
       }
@@ -170,7 +170,7 @@
       }
 
       currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-      turnInfo.textContent = `${currentPlayer === 'X' ? "1-o‘yinchi (X)" : "2-o‘yinchi (O)"} navbati`;
+      turnInfo.textContent = ${currentPlayer === 'X' ? "1-o‘yinchi (X)" : "2-o‘yinchi (O)"} navbati;
     }
 
     function checkWin() {
