@@ -93,10 +93,11 @@
     <div class="board" id="board"></div>
   </div>
 
- <div class="ads-container" id="ads">
-  <script type="text/javascript" src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js"></script>
-  <div id="container-f8dbc3c5a480107e1646ce63fec19cd5"></div>
-</div>
+  <div class="ads-container" id="ads">
+    <!-- Reklama uchun to'g'ri joy -->
+    <script type="text/javascript" src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js"></script>
+    <div id="container-f8dbc3c5a480107e1646ce63fec19cd5"></div>
+  </div>
 
   <script>
     const board = document.getElementById('board');
@@ -124,8 +125,8 @@
 
     function createBoard() {
       board.innerHTML = '';
-      board.style.gridTemplateColumns = repeat(${size}, 70px);
-      board.style.gridTemplateRows = repeat(${size}, 70px);
+      board.style.gridTemplateColumns = `repeat(${size}, 70px)`;
+      board.style.gridTemplateRows = `repeat(${size}, 70px)`;
       boardState = Array(size * size).fill('');
       currentPlayer = 'X';
       gameActive = true;
@@ -161,7 +162,7 @@
       const winCells = checkWin();
       if (winCells) {
         winCells.forEach(i => board.children[i].classList.add('winner'));
-        turnInfo.textContent = ${currentPlayer} g‘olib bo‘ldi! 🏆;
+        turnInfo.textContent = `${currentPlayer} g‘olib bo‘ldi! 🏆`;
         gameActive = false;
         return;
       }
@@ -173,7 +174,7 @@
       }
 
       currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-      turnInfo.textContent = ${currentPlayer === 'X' ? "1-o‘yinchi (X)" : "2-o‘yinchi (O)"} navbati;
+      turnInfo.textContent = `${currentPlayer === 'X' ? "1-o‘yinchi (X)" : "2-o‘yinchi (O)"} navbati`;
     }
 
     function checkWin() {
@@ -216,7 +217,7 @@
         case 'ai2': depthLimit = 2; break;
         case 'ai3': depthLimit = 3; break;
         case 'ai4': depthLimit = 4; break;
-       case 'ai5': depthLimit = 5; break;
+        case 'ai5': depthLimit = 5; break;
         default: return;
       }
 
@@ -270,21 +271,8 @@
       }
     }
 
-    // Reklama qo‘shish
-    const adsContainer = document.getElementById('ads');
-    for (let i = 0; i < 5; i++) {
-      const iframe = document.createElement('iframe');
-      iframe.src = "//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js";
-      iframe.width = "160";
-      iframe.height = "600";
-      iframe.style.border = "none";
-      adsContainer.appendChild(iframe);
-    }
-
     // Boshlanish
     createBoard();
   </script>
 </body>
 </html>
-
-
