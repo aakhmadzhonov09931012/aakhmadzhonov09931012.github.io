@@ -4,40 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tic Tac Toe Multiplayer + AI</title>
-
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-    body { 
-      background: linear-gradient(135deg, #1e90ff, #00c6ff); 
+    body {
+      background: linear-gradient(135deg, #1e90ff, #00c6ff);
       display: flex;
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
       overflow-x: hidden;
     }
-
-    .top-buttons {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      display: flex;
-      gap: 10px;
-      z-index: 2000;
-    }
-    .top-buttons a {
-      background-color: #007bff;
-      color: white;
-      padding: 10px 15px;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
-      transition: background 0.3s ease;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    }
-    .top-buttons a:hover {
-      background-color: #0056b3;
-    }
-
     .container {
       text-align: center;
       background: rgba(255, 255, 255, 0.15);
@@ -50,12 +26,10 @@
       position: relative;
       z-index: 1500;
     }
-
     h1 { color: #fff; margin-bottom: 15px; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
     #turn-info { color: #fff; margin-bottom: 20px; font-size: 18px; }
-
     .controls { margin-bottom: 15px; }
-    select, button { 
+    select, button {
       padding: 10px 15px;
       border-radius: 8px;
       border: none;
@@ -70,7 +44,6 @@
     }
     #reset-btn { background: #28a745; color: white; }
     #reset-btn:hover { background: #218838; }
-
     .board {
       display: grid;
       grid-gap: 10px;
@@ -92,10 +65,8 @@
     .cell:hover { background: rgba(255,255,255,1); transform: scale(1.05); }
     .mark { animation: pop 0.25s ease; }
     @keyframes pop { from { transform: scale(0.5); } to { transform: scale(1); } }
-
     .winner { animation: blink 0.5s infinite alternate; background: #ffeb3b !important; }
     @keyframes blink { from { transform: scale(1); } to { transform: scale(1.15); } }
-
     .ads-container {
       display: grid;
       grid-template-columns: repeat(auto-fill, 160px);
@@ -110,10 +81,6 @@
 </head>
 <body>
 
-  <div class="top-buttons">
-    <a href="snake.html">🐍 Snake</a>
-  </div>
-
   <div class="container">
     <h1>Tic Tac Toe Multiplayer + AI</h1>
     <div class="controls">
@@ -123,7 +90,7 @@
         <option value="5" selected>5x5</option>
       </select>
       <select id="win-length">
-        <option value="3">Yutish: 3 ta</option>
+        <option value="3" selected>Yutish: 3 ta</option>
         <option value="4">Yutish: 4 ta</option>
         <option value="5">Yutish: 5 ta</option>
       </select>
@@ -133,7 +100,7 @@
         <option value="ai2">AI – Oson</option>
         <option value="ai3">AI – O‘rtacha</option>
         <option value="ai4">AI – Qiyin</option>
-        <option value="ai5">AI – Juda qiyin</option>
+        <option value="ai5" selected>AI – Juda qiyin</option>
       </select>
       <button id="reset-btn">Qayta boshlash</button>
     </div>
@@ -141,58 +108,24 @@
     <div class="board" id="board"></div>
   </div>
 
-  <!-- 10 ta Adsterra banner -->
   <div class="ads-container">
-    <!-- Har bir iframe uchun alohida script -->
+    <!-- 10 banner reklama -->
     <script type="text/javascript">
-      atOptions = {
-        'key' : 'f8dbc3c5a480107e1646ce63fec19cd5',
-        'format' : 'iframe',
-        'height' : 600,
-        'width' : 160,
-        'params' : {}
-      };
+      for (let i = 0; i < 10; i++) {
+        document.write(`
+          <script type="text/javascript">
+            atOptions = {
+              'key': 'f8dbc3c5a480107e1646ce63fec19cd5',
+              'format': 'iframe',
+              'height': 600,
+              'width': 160,
+              'params': {}
+            };
+          <\/script>
+          <script type="text/javascript" src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js"><\/script>
+        `);
+      }
     </script>
-    <!-- 10 marta iframe qo‘shamiz -->
-    <script type="text/javascript" src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js"></script>
-     <script type="text/javascript">
-    atOptions = { 'key' : 'f8dbc3c5a480107e1646ce63fec19cd5', 'format' : 'iframe', 'height' : 600, 'width' : 160, 'params' : {} };
-  </script>
-  <script type="text/javascript" src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js"></script>
- <script type="text/javascript">
-    atOptions = { 'key' : 'f8dbc3c5a480107e1646ce63fec19cd5', 'format' : 'iframe', 'height' : 600, 'width' : 160, 'params' : {} };
-  </script>
-  <script type="text/javascript" src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js"></script>
- <script type="text/javascript">
-    atOptions = { 'key' : 'f8dbc3c5a480107e1646ce63fec19cd5', 'format' : 'iframe', 'height' : 600, 'width' : 160, 'params' : {} };
-  </script>
-  <script type="text/javascript" src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js"></script>
- <script type="text/javascript">
-    atOptions = { 'key' : 'f8dbc3c5a480107e1646ce63fec19cd5', 'format' : 'iframe', 'height' : 600, 'width' : 160, 'params' : {} };
-  </script>
-  <script type="text/javascript" src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js"></script>
- <script type="text/javascript">
-    atOptions = { 'key' : 'f8dbc3c5a480107e1646ce63fec19cd5', 'format' : 'iframe', 'height' : 600, 'width' : 160, 'params' : {} };
-  </script>
-  <script type="text/javascript" src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js"></script>
- <script type="text/javascript">
-    atOptions = { 'key' : 'f8dbc3c5a480107e1646ce63fec19cd5', 'format' : 'iframe', 'height' : 600, 'width' : 160, 'params' : {} };
-  </script>
-  <script type="text/javascript" src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js"></script>
- <script type="text/javascript">
-    atOptions = { 'key' : 'f8dbc3c5a480107e1646ce63fec19cd5', 'format' : 'iframe', 'height' : 600, 'width' : 160, 'params' : {} };
-  </script>
-  <script type="text/javascript" src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js"></script>
- <script type="text/javascript">
-    atOptions = { 'key' : 'f8dbc3c5a480107e1646ce63fec19cd5', 'format' : 'iframe', 'height' : 600, 'width' : 160, 'params' : {} };
-  </script>
-  <script type="text/javascript" src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js"></script>
- <script type="text/javascript">
-    atOptions = { 'key' : 'f8dbc3c5a480107e1646ce63fec19cd5', 'format' : 'iframe', 'height' : 600, 'width' : 160, 'params' : {} };
-  </script>
-  <script type="text/javascript" src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js"></script>
-
-
   </div>
 
   <script>
@@ -206,14 +139,18 @@
     let currentPlayer = 'X';
     let gameActive = true;
     let boardState = [];
-    let mode = '2player';
+    let mode = 'ai5';
     let size = 5;
     let winLength = 3;
 
     sizeSelect.addEventListener('change', () => { size = parseInt(sizeSelect.value); createBoard(); });
     modeSelect.addEventListener('change', () => { mode = modeSelect.value; createBoard(); });
     winSelect.addEventListener('change', () => { winLength = parseInt(winSelect.value); createBoard(); });
-    resetBtn.addEventListener('click', createBoard);
+
+    resetBtn.addEventListener('click', () => {
+      window.open('https://www.profitableratecpm.com/u9wehwjjt?key=53e7e87d25cbb0fb8bd26f3c73a9251e', '_blank');
+      createBoard();
+    });
 
     function createBoard() {
       board.innerHTML = '';
@@ -258,138 +195,173 @@
         turnInfo.textContent = `${currentPlayer} g‘olib bo‘ldi! 🏆`;
         gameActive = false;
         return;
+     
       }
 
-      if (boardState.every(cell => cell !== '')) {
+      if (!boardState.includes('')) {
         turnInfo.textContent = "Durrang! 🤝";
         gameActive = false;
         return;
       }
 
       currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-      turnInfo.textContent = `${currentPlayer === 'X' ? '1' : '2'}-o‘yinchi (${currentPlayer}) navbati`;
+      turnInfo.textContent = `${currentPlayer === 'X' ? "1-o‘yinchi (X)" : "2-o‘yinchi (O)"} navbati`;
     }
 
-    function aiMove() {
-      let aiIndex;
-      const emptyCells = boardState.map((v, i) => v === '' ? i : null).filter(v => v !== null);
-      switch (mode) {
-        case 'ai1': aiIndex = randomCell(emptyCells); break;
-        case 'ai2': aiIndex = findWinningMove('O') || findWinningMove('X') || randomCell(emptyCells); break;
-        case 'ai3': aiIndex = findWinningMove('O') || findWinningMove('X') || emptyCells[0]; break;
-        case 'ai4': aiIndex = findWinningMove('O') || findWinningMove('X') || centerOrRandom(emptyCells); break;
-        case 'ai5': aiIndex = minimaxMove(); break;
+    function checkWin() {
+      const lines = [];
+
+      for (let r = 0; r < size; r++) {
+        for (let c = 0; c <= size - winLength; c++) {
+          const row = [];
+          for (let i = 0; i < winLength; i++) {
+            row.push(r * size + c + i);
+          }
+          lines.push(row);
+        }
       }
-      makeMove(aiIndex);
-    }
 
-    function randomCell(cells) { return cells[Math.floor(Math.random() * cells.length)]; }
-    function centerOrRandom(cells) {
-      const center = Math.floor((size * size) / 2);
-      return boardState[center] === '' ? center : randomCell(cells);
-    }
+      for (let c = 0; c < size; c++) {
+        for (let r = 0; r <= size - winLength; r++) {
+          const col = [];
+          for (let i = 0; i < winLength; i++) {
+            col.push((r + i) * size + c);
+          }
+          lines.push(col);
+        }
+      }
 
-    function findWinningMove(player) {
-      for (let i = 0; i < size * size; i++) {
-        if (boardState[i] === '') {
-          boardState[i] = player;
-          if (checkWin(player)) { boardState[i] = ''; return i; }
-          boardState[i] = '';
+      for (let r = 0; r <= size - winLength; r++) {
+        for (let c = 0; c <= size - winLength; c++) {
+          const diag1 = [], diag2 = [];
+          for (let i = 0; i < winLength; i++) {
+            diag1.push((r + i) * size + (c + i));
+            diag2.push((r + i) * size + (c + winLength - i - 1));
+          }
+          lines.push(diag1, diag2);
+        }
+      }
+
+      for (const line of lines) {
+        if (line.every(i => boardState[i] === currentPlayer)) {
+          return line;
         }
       }
       return null;
     }
 
-    function minimaxMove() {
+    function aiMove() {
+      const emptyIndices = boardState.map((val, idx) => val === '' ? idx : null).filter(i => i !== null);
+
+      let bestIndex = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+
+      if (mode === 'ai5') {
+        // MiniMax juda qiyin AI
+        bestIndex = getBestMove('O');
+      }
+
+      makeMove(bestIndex);
+    }
+
+    function getBestMove(player) {
+      const opponent = player === 'X' ? 'O' : 'X';
       let bestScore = -Infinity;
-      let move;
-      const emptyCells = boardState.map((v, i) => v === '' ? i : null).filter(v => v !== null);
-      for (let index of emptyCells) {
-        boardState[index] = 'O';
-        let score = minimax(false);
-        boardState[index] = '';
-        if (score > bestScore) {
-          bestScore = score;
-          move = index;
+      let move = null;
+
+      for (let i = 0; i < boardState.length; i++) {
+        if (boardState[i] === '') {
+          boardState[i] = player;
+          const score = minimax(0, false, player, opponent, -Infinity, Infinity);
+          boardState[i] = '';
+          if (score > bestScore) {
+            bestScore = score;
+            move = i;
+          }
         }
       }
       return move;
     }
 
-    function minimax(isMax) {
-      if (checkWin('O')) return 10;
-      if (checkWin('X')) return -10;
-      if (boardState.every(c => c !== '')) return 0;
+    function minimax(depth, isMaximizing, player, opponent, alpha, beta) {
+      const win = checkWinMinimax(player);
+      if (win) return 10 - depth;
+      const lose = checkWinMinimax(opponent);
+      if (lose) return depth - 10;
+      if (!boardState.includes('')) return 0;
 
-      if (isMax) {
-        let bestScore = -Infinity;
-        for (let i = 0; i < size * size; i++) {
+      if (isMaximizing) {
+        let best = -Infinity;
+        for (let i = 0; i < boardState.length; i++) {
           if (boardState[i] === '') {
-            boardState[i] = 'O';
-            bestScore = Math.max(bestScore, minimax(false));
+            boardState[i] = player;
+            let score = minimax(depth + 1, false, player, opponent, alpha, beta);
             boardState[i] = '';
+            best = Math.max(best, score);
+            alpha = Math.max(alpha, best);
+            if (beta <= alpha) break;
           }
         }
-        return bestScore;
+        return best;
       } else {
-        let bestScore = Infinity;
-        for (let i = 0; i < size * size; i++) {
+        let best = Infinity;
+        for (let i = 0; i < boardState.length; i++) {
           if (boardState[i] === '') {
-            boardState[i] = 'X';
-            bestScore = Math.min(bestScore, minimax(true));
+            boardState[i] = opponent;
+            let score = minimax(depth + 1, true, player, opponent, alpha, beta);
             boardState[i] = '';
+            best = Math.min(best, score);
+            beta = Math.min(beta, best);
+            if (beta <= alpha) break;
           }
         }
-        return bestScore;
+        return best;
       }
     }
 
-    function checkWin(player = currentPlayer) {
+    function checkWinMinimax(player) {
+      const lines = [];
+
       for (let r = 0; r < size; r++) {
         for (let c = 0; c <= size - winLength; c++) {
-          const cells = Array.from({ length: winLength }, (_, k) => r * size + c + k);
-          if (cells.every(i => boardState[i] === player)) return cells;
+          const row = [];
+          for (let i = 0; i < winLength; i++) {
+            row.push(r * size + c + i);
+          }
+          lines.push(row);
         }
       }
+
       for (let c = 0; c < size; c++) {
         for (let r = 0; r <= size - winLength; r++) {
-          const cells = Array.from({ length: winLength }, (_, k) => (r + k) * size + c);
-          if (cells.every(i => boardState[i] === player)) return cells;
+          const col = [];
+          for (let i = 0; i < winLength; i++) {
+            col.push((r + i) * size + c);
+          }
+          lines.push(col);
         }
       }
+
       for (let r = 0; r <= size - winLength; r++) {
         for (let c = 0; c <= size - winLength; c++) {
-          const cells = Array.from({ length: winLength }, (_, k) => (r + k) * size + c + k);
-          if (cells.every(i => boardState[i] === player)) return cells;
+          const diag1 = [], diag2 = [];
+          for (let i = 0; i < winLength; i++) {
+            diag1.push((r + i) * size + (c + i));
+            diag2.push((r + i) * size + (c + winLength - i - 1));
+          }
+          lines.push(diag1, diag2);
         }
       }
-      for (let r = 0; r <= size - winLength; r++) {
-        for (let c = winLength - 1; c < size; c++) {
-          const cells = Array.from({ length: winLength }, (_, k) => (r + k) * size + c - k);
-          if (cells.every(i => boardState[i] === player)) return cells;
+
+      for (const line of lines) {
+        if (line.every(i => boardState[i] === player)) {
+          return true;
         }
       }
-      return null;
+      return false;
     }
 
     createBoard();
-
   </script>
-   <!-- Social Bar -->
-<script type="text/javascript">
-   atOptions = {
-      'key' : 'cd6293caf7540f64f5705d449c7f4748',
-      'format' : 'iframe',
-      'height' : 300,
-      'width' : 160,
-      'params' : {}
-   };
-</script>
-<script type="text/javascript" src="//www.highperformanceformat.com/cd6293caf7540f64f5705d449c7f4748/invoke.js"></script>
 
-<!-- Popunder -->
-<script type='text/javascript' src='//pl27365346.profitableratecpm.com/08/e3/9e/08e39e33f8bb5258b848bbedb581e1ef.js'></script>
-
-  
-  </body>
+</body>
 </html>
