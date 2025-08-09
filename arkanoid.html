@@ -13,43 +13,30 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      overflow-x: hidden;
     }
     canvas {
       background: #111;
       margin-top: 20px;
       border: 3px solid lime;
+      max-width: 100%;
+      height: auto;
     }
     h1 {
       margin-top: 10px;
       font-size: 24px;
       color: #0f0;
+      text-align: center;
     }
     .ads-container {
       display: grid;
-      grid-template-columns: repeat(auto-fill, 160px);
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
       gap: 10px;
       justify-content: center;
       margin: 20px auto;
       padding: 10px;
       width: 100%;
       max-width: 1000px;
-    }
-    .top-buttons {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      z-index: 1000;
-    }
-    .top-buttons a {
-      background: #0c0;
-      color: black;
-      padding: 8px 12px;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
-    }
-    .top-buttons a:hover {
-      background: #0f0;
     }
     #restartBtn {
       display: none;
@@ -70,17 +57,11 @@
 </head>
 <body>
 
-  <div class="top-buttons">
-    <a href="index.html">❌ Tic Tac Toe</a>
-    <a href="snake.html">🐍 Snake</a>
-  </div>
-
   <h1>🧱 Arkanoid (Brick Breaker)</h1>
   <canvas id="game" width="480" height="320"></canvas>
 
   <button id="restartBtn" onclick="restartGame()">🔁 Qayta boshlash</button>
 
-  <!-- 10 ta Adsterra banner -->
   <div class="ads-container">
     <script type="text/javascript">
       for (let i = 0; i < 10; i++) {
@@ -138,6 +119,7 @@
 
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
+    document.addEventListener("touchmove", touchMoveHandler, false);
     document.addEventListener("mousemove", mouseMoveHandler, false);
 
     function keyDownHandler(e) {
@@ -154,6 +136,13 @@
       const relativeX = e.clientX - canvas.getBoundingClientRect().left;
       if (relativeX > 0 && relativeX < canvas.width) {
         paddleX = relativeX - paddleWidth / 2;
+      }
+    }
+
+    function touchMoveHandler(e) {
+      const touchX = e.touches[0].clientX - canvas.getBoundingClientRect().left;
+      if (touchX > 0 && touchX < canvas.width) {
+        paddleX = touchX - paddleWidth / 2;
       }
     }
 
