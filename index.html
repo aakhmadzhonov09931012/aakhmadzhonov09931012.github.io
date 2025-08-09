@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tic Tac Toe Multiplayer + AI</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
@@ -12,7 +12,6 @@
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
-      overflow-x: hidden;
     }
     .container {
       text-align: center;
@@ -23,8 +22,6 @@
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
       width: 400px;
       margin: 20px auto;
-      position: relative;
-      z-index: 1500;
     }
     h1 { color: #fff; margin-bottom: 15px; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
     #turn-info { color: #fff; margin-bottom: 20px; font-size: 18px; }
@@ -36,14 +33,8 @@
       margin: 5px;
       font-size: 14px;
       cursor: pointer;
-      transition: all 0.2s ease-in-out;
-    }
-    select:hover, button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }
     #reset-btn { background: #28a745; color: white; }
-    #reset-btn:hover { background: #218838; }
     .board {
       display: grid;
       grid-gap: 10px;
@@ -60,27 +51,21 @@
       font-weight: bold;
       color: #1e90ff;
       cursor: pointer;
-      transition: transform 0.2s ease, background 0.3s;
     }
-    .cell:hover { background: rgba(255,255,255,1); transform: scale(1.05); }
     .mark { animation: pop 0.25s ease; }
     @keyframes pop { from { transform: scale(0.5); } to { transform: scale(1); } }
     .winner { animation: blink 0.5s infinite alternate; background: #ffeb3b !important; }
     @keyframes blink { from { transform: scale(1); } to { transform: scale(1.15); } }
     .ads-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, 160px);
-      gap: 10px;
+      display: flex;
+      flex-wrap: wrap;
       justify-content: center;
-      margin-top: 20px;
-      padding: 10px;
-      width: 100%;
-      max-width: 1000px;
+      gap: 10px;
+      margin: 10px;
     }
   </style>
 </head>
 <body>
-
   <div class="container">
     <h1>Tic Tac Toe Multiplayer + AI</h1>
     <div class="controls">
@@ -96,10 +81,6 @@
       </select>
       <select id="mode">
         <option value="2player">2 O'yinchi</option>
-        <option value="ai1">AI – Juda oson</option>
-        <option value="ai2">AI – Oson</option>
-        <option value="ai3">AI – O‘rtacha</option>
-        <option value="ai4">AI – Qiyin</option>
         <option value="ai5" selected>AI – Juda qiyin</option>
       </select>
       <button id="reset-btn">Qayta boshlash</button>
@@ -109,20 +90,10 @@
   </div>
 
   <div class="ads-container">
-    <!-- 10 banner reklama -->
     <script type="text/javascript">
       for (let i = 0; i < 10; i++) {
         document.write(`
-          <script type="text/javascript">
-            atOptions = {
-              'key': 'f8dbc3c5a480107e1646ce63fec19cd5',
-              'format': 'iframe',
-              'height': 600,
-              'width': 160,
-              'params': {}
-            };
-          <\/script>
-          <script type="text/javascript" src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js"><\/script>
+          <iframe src="//www.highperformanceformat.com/f8dbc3c5a480107e1646ce63fec19cd5/invoke.js" width="160" height="600" style="border:none;"></iframe>
         `);
       }
     </script>
@@ -143,10 +114,9 @@
     let size = 5;
     let winLength = 3;
 
-    sizeSelect.addEventListener('change', () => { size = parseInt(sizeSelect.value); createBoard(); });
+    sizeSelect.addEventListener('change', () => { size = +sizeSelect.value; createBoard(); });
+    winSelect.addEventListener('change', () => { winLength = +winSelect.value; createBoard(); });
     modeSelect.addEventListener('change', () => { mode = modeSelect.value; createBoard(); });
-    winSelect.addEventListener('change', () => { winLength = parseInt(winSelect.value); createBoard(); });
-
     resetBtn.addEventListener('click', () => {
       window.open('https://www.profitableratecpm.com/u9wehwjjt?key=53e7e87d25cbb0fb8bd26f3c73a9251e', '_blank');
       createBoard();
@@ -157,9 +127,8 @@
       board.style.gridTemplateColumns = `repeat(${size}, 70px)`;
       board.style.gridTemplateRows = `repeat(${size}, 70px)`;
       boardState = Array(size * size).fill('');
-      gameActive = true;
       currentPlayer = 'X';
-      winLength = parseInt(winSelect.value);
+      gameActive = true;
       turnInfo.textContent = "1-o‘yinchi (X) navbati";
 
       for (let i = 0; i < size * size; i++) {
@@ -174,11 +143,11 @@
     }
 
     function handleCellClick(e) {
-      const index = e.target.dataset.index;
+      const index = +e.target.dataset.index;
       if (!gameActive || boardState[index] !== '') return;
       makeMove(index);
-      if (mode.startsWith('ai') && gameActive && currentPlayer === 'O') {
-        setTimeout(aiMove, 400);
+      if (mode === 'ai5' && gameActive && currentPlayer === 'O') {
+        setTimeout(aiMove, 300);
       }
     }
 
@@ -195,7 +164,6 @@
         turnInfo.textContent = `${currentPlayer} g‘olib bo‘ldi! 🏆`;
         gameActive = false;
         return;
-     
       }
 
       if (!boardState.includes('')) {
@@ -210,27 +178,20 @@
 
     function checkWin() {
       const lines = [];
-
       for (let r = 0; r < size; r++) {
         for (let c = 0; c <= size - winLength; c++) {
           const row = [];
-          for (let i = 0; i < winLength; i++) {
-            row.push(r * size + c + i);
-          }
+          for (let i = 0; i < winLength; i++) row.push(r * size + c + i);
           lines.push(row);
         }
       }
-
       for (let c = 0; c < size; c++) {
         for (let r = 0; r <= size - winLength; r++) {
           const col = [];
-          for (let i = 0; i < winLength; i++) {
-            col.push((r + i) * size + c);
-          }
+          for (let i = 0; i < winLength; i++) col.push((r + i) * size + c);
           lines.push(col);
         }
       }
-
       for (let r = 0; r <= size - winLength; r++) {
         for (let c = 0; c <= size - winLength; c++) {
           const diag1 = [], diag2 = [];
@@ -241,37 +202,15 @@
           lines.push(diag1, diag2);
         }
       }
-
-      for (const line of lines) {
-        if (line.every(i => boardState[i] === currentPlayer)) {
-          return line;
-        }
-      }
-      return null;
+      return lines.find(line => line.every(i => boardState[i] === currentPlayer));
     }
 
     function aiMove() {
-      const emptyIndices = boardState.map((val, idx) => val === '' ? idx : null).filter(i => i !== null);
-
-      let bestIndex = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
-
-      if (mode === 'ai5') {
-        // MiniMax juda qiyin AI
-        bestIndex = getBestMove('O');
-      }
-
-      makeMove(bestIndex);
-    }
-
-    function getBestMove(player) {
-      const opponent = player === 'X' ? 'O' : 'X';
-      let bestScore = -Infinity;
-      let move = null;
-
+      let bestScore = -Infinity, move;
       for (let i = 0; i < boardState.length; i++) {
         if (boardState[i] === '') {
-          boardState[i] = player;
-          const score = minimax(0, false, player, opponent, -Infinity, Infinity);
+          boardState[i] = 'O';
+          const score = minimax(0, false, -Infinity, Infinity);
           boardState[i] = '';
           if (score > bestScore) {
             bestScore = score;
@@ -279,89 +218,45 @@
           }
         }
       }
-      return move;
+      makeMove(move);
     }
 
-    function minimax(depth, isMaximizing, player, opponent, alpha, beta) {
-      const win = checkWinMinimax(player);
-      if (win) return 10 - depth;
-      const lose = checkWinMinimax(opponent);
-      if (lose) return depth - 10;
+    function minimax(depth, isMaximizing, alpha, beta) {
+      const win = checkWin();
+      if (win) return (currentPlayer === 'O' ? 1 : -1) * (10 - depth);
       if (!boardState.includes('')) return 0;
 
       if (isMaximizing) {
-        let best = -Infinity;
+        let maxEval = -Infinity;
         for (let i = 0; i < boardState.length; i++) {
           if (boardState[i] === '') {
-            boardState[i] = player;
-            let score = minimax(depth + 1, false, player, opponent, alpha, beta);
+            boardState[i] = 'O';
+            const eval = minimax(depth + 1, false, alpha, beta);
             boardState[i] = '';
-            best = Math.max(best, score);
-            alpha = Math.max(alpha, best);
+            maxEval = Math.max(maxEval, eval);
+            alpha = Math.max(alpha, eval);
             if (beta <= alpha) break;
           }
         }
-        return best;
+        return maxEval;
       } else {
-        let best = Infinity;
+        let minEval = Infinity;
         for (let i = 0; i < boardState.length; i++) {
           if (boardState[i] === '') {
-            boardState[i] = opponent;
-            let score = minimax(depth + 1, true, player, opponent, alpha, beta);
+            boardState[i] = 'X';
+            const eval = minimax(depth + 1, true, alpha, beta);
             boardState[i] = '';
-            best = Math.min(best, score);
-            beta = Math.min(beta, best);
+            minEval = Math.min(minEval, eval);
+            beta = Math.min(beta, eval);
             if (beta <= alpha) break;
           }
         }
-        return best;
+        return minEval;
       }
-    }
-
-    function checkWinMinimax(player) {
-      const lines = [];
-
-      for (let r = 0; r < size; r++) {
-        for (let c = 0; c <= size - winLength; c++) {
-          const row = [];
-          for (let i = 0; i < winLength; i++) {
-            row.push(r * size + c + i);
-          }
-          lines.push(row);
-        }
-      }
-
-      for (let c = 0; c < size; c++) {
-        for (let r = 0; r <= size - winLength; r++) {
-          const col = [];
-          for (let i = 0; i < winLength; i++) {
-            col.push((r + i) * size + c);
-          }
-          lines.push(col);
-        }
-      }
-
-      for (let r = 0; r <= size - winLength; r++) {
-        for (let c = 0; c <= size - winLength; c++) {
-          const diag1 = [], diag2 = [];
-          for (let i = 0; i < winLength; i++) {
-            diag1.push((r + i) * size + (c + i));
-            diag2.push((r + i) * size + (c + winLength - i - 1));
-          }
-          lines.push(diag1, diag2);
-        }
-      }
-
-      for (const line of lines) {
-        if (line.every(i => boardState[i] === player)) {
-          return true;
-        }
-      }
-      return false;
     }
 
     createBoard();
   </script>
-
 </body>
 </html>
+
