@@ -310,17 +310,25 @@
 
     // Mobil tugmalar boshqaruvi
     document.getElementById("upBtn").addEventListener("click", () => {
-      if (direction !== "DOWN") direction = "UP";
-    });
-    document.getElementById("downBtn").addEventListener("click", () => {
-      if (direction !== "UP") direction = "DOWN";
-    });
-    document.getElementById("leftBtn").addEventListener("click", () => {
-      if (direction !== "RIGHT") direction = "LEFT";
-    });
-    document.getElementById("rightBtn").addEventListener("click", () => {
-      if (direction !== "LEFT") direction = "RIGHT";
-    });
+  if (direction !== "DOWN") direction = "UP";
+  draw(); // darhol yangilash
+});
+
+document.getElementById("downBtn").addEventListener("click", () => {
+  if (direction !== "UP") direction = "DOWN";
+  draw();
+});
+
+document.getElementById("leftBtn").addEventListener("click", () => {
+  if (direction !== "RIGHT") direction = "LEFT";
+  draw();
+});
+
+document.getElementById("rightBtn").addEventListener("click", () => {
+  if (direction !== "LEFT") direction = "RIGHT";
+  draw();
+});
+
   </script>
 </body>
 </html>
