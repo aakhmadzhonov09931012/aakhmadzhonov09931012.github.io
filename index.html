@@ -209,11 +209,12 @@
     const winSelect = document.getElementById('win-length');
 
     let currentPlayer = 'X';
-    let gameActive = true;
-    let boardState = [];
-    let mode = 'ai5';
-    let size = 5;
-    let winLength = 3;
+let gameActive = true;
+let boardState = [];
+let mode = modeSelect.value;
+let size = +sizeSelect.value;
+let winLength = +winSelect.value;
+
 
     sizeSelect.addEventListener('change', () => { size = +sizeSelect.value; createBoard(); });
     winSelect.addEventListener('change', () => { winLength = +winSelect.value; createBoard(); });
@@ -377,6 +378,7 @@
   </script>
 </body>
 </html>
+
 
 
 
