@@ -54,6 +54,35 @@
       gap: 10px;
       margin: 10px;
     }
+	  .mobile-controls {
+  display: none;
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  gap: 10px;
+  text-align: center;
+}
+
+.mobile-controls button {
+  background: limegreen;
+  color: black;
+  font-size: 24px;
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+/* Faqat 768px dan kichik ekranlarda ko‘rsat */
+@media only screen and (max-width: 768px) {
+  .mobile-controls {
+    display: block;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -62,6 +91,15 @@
   <canvas id="game" width="600" height="600"></canvas>
 
   <div class="controls">
+	  <div class="mobile-controls">
+  <button id="upBtn">⬆️</button>
+  <div>
+    <button id="leftBtn">⬅️</button>
+    <button id="downBtn">⬇️</button>
+    <button id="rightBtn">➡️</button>
+  </div>
+</div>
+
     <select id="skinSelect">
       <option value="green">Skin 1 (Yashil)</option>
       <option value="blue">Skin 2 (Moviy)</option>
@@ -277,6 +315,19 @@
     }
 
     game = setInterval(draw, 100);
+	  document.getElementById("upBtn").addEventListener("click", () => {
+  if (direction !== "DOWN") direction = "UP";
+});
+document.getElementById("downBtn").addEventListener("click", () => {
+  if (direction !== "UP") direction = "DOWN";
+});
+document.getElementById("leftBtn").addEventListener("click", () => {
+  if (direction !== "RIGHT") direction = "LEFT";
+});
+document.getElementById("rightBtn").addEventListener("click", () => {
+  if (direction !== "LEFT") direction = "RIGHT";
+});
+
   </script>
 </body>
 </html>
