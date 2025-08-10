@@ -248,9 +248,9 @@
       const index = +e.target.dataset.index;
       if (!gameActive || boardState[index] !== '') return;
       makeMove(index);
-      if (mode !== '2player' && gameActive && currentPlayer === 'O') {
-        setTimeout(aiMove, 300);
-      }
+      if (gameActive && mode.startsWith('ai') && currentPlayer === 'O') {
+  setTimeout(aiMove, 300);
+}
     }
 
     function makeMove(index) {
@@ -377,6 +377,7 @@
   </script>
 </body>
 </html>
+
 
 
 
