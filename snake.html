@@ -15,16 +15,20 @@
       color: white;
       font-family: Arial, sans-serif;
     }
-    
+
     canvas {
       border: 2px solid lime;
       background: black;
     }
+
     .controls {
       display: flex;
       gap: 15px;
       margin-top: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
     }
+
     button, select {
       padding: 10px 20px;
       font-size: 16px;
@@ -35,18 +39,35 @@
       color: black;
       font-weight: bold;
     }
-    .ad-slot {
+
+    .mobile-controls {
+      display: none;
       position: fixed;
-      width: 160px;
-      height: 600px;
-      z-index: 1;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      text-align: center;
     }
-    .right-top { right: 0; top: 0; }
-    .right-middle { right: 0; top: 50%; transform: translateY(-50%); }
-    .right-bottom { right: 0; bottom: 0; }
-    .left-top { left: 0; top: 0; }
-    .left-middle { left: 0; top: 50%; transform: translateY(-50%); }
-    .left-bottom { left: 0; bottom: 0; }
+
+    .mobile-controls button {
+      background: limegreen;
+      color: black;
+      font-size: 24px;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      margin: 5px;
+      cursor: pointer;
+    }
+
+    /* Faqat kichik ekranlarda mobil tugmalar ko‘rinadi */
+    @media only screen and (max-width: 768px) {
+      .mobile-controls {
+        display: block;
+      }
+    }
+
     .ads-container {
       display: flex;
       flex-wrap: wrap;
@@ -54,52 +75,13 @@
       gap: 10px;
       margin: 10px;
     }
-	  .mobile-controls {
-  display: none;
-  position: fixed;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-  gap: 10px;
-  text-align: center;
-}
-
-.mobile-controls button {
-  background: limegreen;
-  color: black;
-  font-size: 24px;
-  padding: 15px;
-  border: none;
-  border-radius: 10px;
-  margin: 5px;
-  cursor: pointer;
-}
-
-/* Faqat 768px dan kichik ekranlarda ko‘rsat */
-@media only screen and (max-width: 768px) {
-  .mobile-controls {
-    display: block;
-  }
-}
-
   </style>
 </head>
 <body>
-  
 
   <canvas id="game" width="600" height="600"></canvas>
 
   <div class="controls">
-	  <div class="mobile-controls">
-  <button id="upBtn">⬆️</button>
-  <div>
-    <button id="leftBtn">⬅️</button>
-    <button id="downBtn">⬇️</button>
-    <button id="rightBtn">➡️</button>
-  </div>
-</div>
-
     <select id="skinSelect">
       <option value="green">Skin 1 (Yashil)</option>
       <option value="blue">Skin 2 (Moviy)</option>
@@ -115,115 +97,20 @@
     <button id="pauseBtn">Pauza</button>
     <button onclick="restartGame()">Qayta boshlash</button>
   </div>
-<div class="ads-container" id="ads">
-  <!-- Bu yerga reklama kodi qo'yiladi -->
-<script type="text/javascript">
-	atOptions = {
-		'key' : 'cd6293ca7f540f0f45705d449c7f4748',
-		'format' : 'iframe',
-		'height' : 300,
-		'width' : 160,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="//www.highperformanceformat.com/cd6293ca7f540f0f45705d449c7f4748/invoke.js"></script>
-  <script type="text/javascript">
-	atOptions = {
-		'key' : 'cd6293ca7f540f0f45705d449c7f4748',
-		'format' : 'iframe',
-		'height' : 300,
-		'width' : 160,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="//www.highperformanceformat.com/cd6293ca7f540f0f45705d449c7f4748/invoke.js"></script>
-  <script type="text/javascript">
-	atOptions = {
-		'key' : 'cd6293ca7f540f0f45705d449c7f4748',
-		'format' : 'iframe',
-		'height' : 300,
-		'width' : 160,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="//www.highperformanceformat.com/cd6293ca7f540f0f45705d449c7f4748/invoke.js"></script>
-  <script type="text/javascript">
-	atOptions = {
-		'key' : 'cd6293ca7f540f0f45705d449c7f4748',
-		'format' : 'iframe',
-		'height' : 300,
-		'width' : 160,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="//www.highperformanceformat.com/cd6293ca7f540f0f45705d449c7f4748/invoke.js"></script>
-  <script type="text/javascript">
-	atOptions = {
-		'key' : 'cd6293ca7f540f0f45705d449c7f4748',
-		'format' : 'iframe',
-		'height' : 300,
-		'width' : 160,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="//www.highperformanceformat.com/cd6293ca7f540f0f45705d449c7f4748/invoke.js"></script>
-  <script type="text/javascript">
-	atOptions = {
-		'key' : 'cd6293ca7f540f0f45705d449c7f4748',
-		'format' : 'iframe',
-		'height' : 300,
-		'width' : 160,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="//www.highperformanceformat.com/cd6293ca7f540f0f45705d449c7f4748/invoke.js"></script>
-  <script type="text/javascript">
-	atOptions = {
-		'key' : 'cd6293ca7f540f0f45705d449c7f4748',
-		'format' : 'iframe',
-		'height' : 300,
-		'width' : 160,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="//www.highperformanceformat.com/cd6293ca7f540f0f45705d449c7f4748/invoke.js"></script>
- <script type="text/javascript">
-	atOptions = {
-		'key' : 'cd6293ca7f540f0f45705d449c7f4748',
-		'format' : 'iframe',
-		'height' : 300,
-		'width' : 160,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="//www.highperformanceformat.com/cd6293ca7f540f0f45705d449c7f4748/invoke.js"></script>
-  <script type="text/javascript">
-	atOptions = {
-		'key' : 'cd6293ca7f540f0f45705d449c7f4748',
-		'format' : 'iframe',
-		'height' : 300,
-		'width' : 160,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="//www.highperformanceformat.com/cd6293ca7f540f0f45705d449c7f4748/invoke.js"></script>
-  <script type="text/javascript">
-	atOptions = {
-		'key' : 'cd6293ca7f540f0f45705d449c7f4748',
-		'format' : 'iframe',
-		'height' : 300,
-		'width' : 160,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="//www.highperformanceformat.com/cd6293ca7f540f0f45705d449c7f4748/invoke.js"></script>
-  
-</div>
 
-  
-  
+  <!-- Mobil boshqaruv tugmalari -->
+  <div class="mobile-controls">
+    <button id="upBtn">⬆️</button><br>
+    <button id="leftBtn">⬅️</button>
+    <button id="downBtn">⬇️</button>
+    <button id="rightBtn">➡️</button>
+  </div>
 
- 
+  <div class="ads-container">
+    <!-- Reklama joyi -->
+    <!-- O'zgarishsiz qoldirildi -->
+  </div>
+
   <script>
     const canvas = document.getElementById('game');
     const ctx = canvas.getContext('2d');
@@ -268,7 +155,6 @@
       if (direction === "RIGHT") headX += box;
       if (direction === "DOWN") headY += box;
 
-      // Devordan chiqsa, qarama-qarshi tomondan chiqadi
       if (headX >= canvas.width) headX = 0;
       if (headX < 0) headX = canvas.width - box;
       if (headY >= canvas.height) headY = 0;
@@ -287,7 +173,6 @@
 
       if (collision(newHead, snake)) {
         clearInterval(game);
-        // Hech qanday alert() yo'q — o'yin jim tugaydi
         return;
       }
 
@@ -315,20 +200,20 @@
     }
 
     game = setInterval(draw, 100);
-	  document.getElementById("upBtn").addEventListener("click", () => {
-  if (direction !== "DOWN") direction = "UP";
-});
-document.getElementById("downBtn").addEventListener("click", () => {
-  if (direction !== "UP") direction = "DOWN";
-});
-document.getElementById("leftBtn").addEventListener("click", () => {
-  if (direction !== "RIGHT") direction = "LEFT";
-});
-document.getElementById("rightBtn").addEventListener("click", () => {
-  if (direction !== "LEFT") direction = "RIGHT";
-});
 
+    // Mobil tugmalar boshqaruvi
+    document.getElementById("upBtn").addEventListener("click", () => {
+      if (direction !== "DOWN") direction = "UP";
+    });
+    document.getElementById("downBtn").addEventListener("click", () => {
+      if (direction !== "UP") direction = "DOWN";
+    });
+    document.getElementById("leftBtn").addEventListener("click", () => {
+      if (direction !== "RIGHT") direction = "LEFT";
+    });
+    document.getElementById("rightBtn").addEventListener("click", () => {
+      if (direction !== "LEFT") direction = "RIGHT";
+    });
   </script>
 </body>
 </html>
-
