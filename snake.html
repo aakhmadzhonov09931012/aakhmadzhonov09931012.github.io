@@ -63,9 +63,16 @@
 
     /* Faqat kichik ekranlarda mobil tugmalar ko‘rinadi */
     @media only screen and (max-width: 768px) {
-      .mobile-controls {
-        display: block;
-      }
+     .mobile-controls {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  text-align: center;
+  display: block; /* doimiy ko‘rinadi */
+}
+
     }
 
     .ads-container {
